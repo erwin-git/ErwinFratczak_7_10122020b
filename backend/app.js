@@ -5,6 +5,10 @@ const path = require('path');
 const cors = require('cors');
 
 
+const userRoutes = require('./routes/user')
+
+
+
 const app = express();
 
 
@@ -15,14 +19,16 @@ app.use(cors());
 
 
 
-const userRoutes = require('./routes/user')
-
-
 
 app.use(bodyParser.json())
+//app.use(express.urlencoded({ extended: true }));
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
 app.use('/api/auth', userRoutes)
+
+
 
 
 

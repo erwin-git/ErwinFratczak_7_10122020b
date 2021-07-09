@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 const db = require('../models');
 const { User } = db.sequelize.models
 
@@ -11,7 +12,7 @@ bcrypt.hash(req.body.password, 10)
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        password: hash
+        password: hash,
         });
         user.save()
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
@@ -46,3 +47,44 @@ exports.login = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }));
     };
+
+exports.getOneUser = (req, res, next) => {
+    User.findOne({ _id: req.body.id })
+    .then(user => res.status(200).json(user))
+    .catch(error => res.status(404).json({ error }))
+};
+
+
+exports.getAllUsers = (req, res, next) => {
+    User.findAll()
+        .then(users => res.status(200).json(users))
+        .catch(error => res.status(400).json({ error }));
+};
+
+exports.editUser = (req, res, next) => {
+    const userObject = req.file ?
+        {
+        ...JSON.parse(req.body.User),
+        imageURL: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : { ...req.body };
+    //User.update({ _id: req.params.id }, )
+    User.update({ ...userObject, _id: req.params.id }, {where: { id: req.params.id }})
+        .then(() => res.status(200).json({ message: 'Utilisateur modifié !'}))
+        .catch(error => res.status(400).json({ error }));
+};
+
+
+exports.deleteUser = (req, res, next) => {
+    User.findOne({ id: req.params.id })
+    .then(user => {
+        User.destroy({ where: { id: req.params.id }, })
+            .then(() => res.status(200).json({ message: 'Utilisateur supprimé !'}))
+            .catch(error => res.status(400).json({ error }));
+        
+    })
+    .catch(error => res.status(500).json({ error }));
+};
+
+
+
+
