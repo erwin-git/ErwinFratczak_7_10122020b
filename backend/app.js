@@ -6,7 +6,7 @@ const cors = require('cors');
 
 const postRoutes = require('./routes/post')
 const userRoutes = require('./routes/user')
-//const commentRoutes = require('./routes/comment')
+const commentRoutes = require('./routes/comment')
 
 
 
@@ -14,11 +14,6 @@ const app = express();
 
 
 app.use(cors());
-
-
-
-
-
 
 
 app.use(bodyParser.json())
@@ -29,7 +24,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/auth', userRoutes)
 app.use('/api/post', postRoutes)
-//app.use('/api/comment', commentRoutes)
+app.use('/api/post/:id', commentRoutes)
 
 
 

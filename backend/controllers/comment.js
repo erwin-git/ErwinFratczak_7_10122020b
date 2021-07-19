@@ -6,7 +6,7 @@ exports.createComment = async (req, res, next) => {
   try {
     let Comment = await comment.create({
       ...req.body,
-      postId: req.params.postId,
+      idPost: req.params.postId,
     })
 
     res.status(201).json({ Comment })
@@ -15,13 +15,11 @@ exports.createComment = async (req, res, next) => {
     res.status(400).json({ error })
   }
 }
-
 exports.getOneComment = (req, res, next) => {
-  comment.findOne({ _id: req.params.id })
-  .then(Comment => res.status(200).json(Comment))
-  .catch(error => res.status(404).json({ error }))
-};
-
+  comment.findOne({ where: { id: req.params.id }, include: db.User })
+    .then(comment => res.status(200).json({ comment }))
+    .catch(error => res.status(404).json({ error }))
+}
 
 exports.getAllComments = (req, res, next) => {
   comment.findAll({
@@ -36,18 +34,28 @@ exports.getAllComments = (req, res, next) => {
       .catch(error => res.status(400).json({ error }));
 };
 
-exports.modifyComment = (req, res, next) => {
+exports.editComment = (req, res, next) => {
   const commentObject = req.file ?
       {
       ...JSON.parse(req.body.post),
       fileUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
       } : { ...req.body };
   comment.update({ ...commentObject, _id: req.params.id }, {where: { id: req.params.id }})
-      .then(() => res.status(200).json({ message: 'Post modifié !'}))
+      .then(() => res.status(200).json({ message: 'Commentaire modifié !'}))
       .catch(error => res.status(400).json({ error }));
 };
 
 
+exports.deleteComment = (req, res, next) => {
+  comment.findOne({ id: req.params.id })
+  .then(post => {
+      comment.destroy({ where: { id: req.params.id }, })
+          .then(() => res.status(200).json({ message: 'Commentaire supprimé !'}))
+          .catch(error => res.status(400).json({ error }));
+      
+  })
+  .catch(error => res.status(500).json({ error }));
+};
 
 
 
