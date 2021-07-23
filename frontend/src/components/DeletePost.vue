@@ -9,10 +9,10 @@
       <template v-slot:activator="{ on, attrs }">
         <v-list-item v-bind="attrs" v-on="on">
             <v-list-item-action>
-                <v-icon left class="white--text">delete</v-icon>
+                <v-icon>delete</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-                <v-list-item-title class="white--text">Delete Profil</v-list-item-title>
+                <v-list-item-title>Delete Post</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
       </template>
@@ -21,7 +21,7 @@
         <v-app-bar color="error" flat>
             <v-card-title>
                 <v-icon left class="white--text" >delete</v-icon>
-                <span class="white--text heading">Delete Profil</span>
+                <span class="white--text heading">Delete Post</span>
             </v-card-title>
         </v-app-bar>
 

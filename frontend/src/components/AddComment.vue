@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-dialog
@@ -7,30 +6,23 @@
       max-width="600"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-list-item v-bind="attrs" v-on="on">
-            <v-list-item-action>
-                <v-icon left class="white--text">message</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-                <v-list-item-title class="white--text">Add Post</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
+        <div class="text-right">
+          <v-btn class="mb-5 mr-5" fab dark color="success" v-bind="attrs" v-on="on">
+            <v-icon dark>mdi-plus</v-icon>
+          </v-btn>
+        </div>
       </template>
 
       <v-card >
-        <v-app-bar color="success" flat>
+        <v-app-bar color="warning" flat>
             <v-card-title>
-                <v-icon left class="white--text" >message</v-icon>
-                <span class="white--text heading">Add Post</span>
+                <v-icon left class="white--text" >add</v-icon>
+                <span class="white--text heading">Add Comment</span>
             </v-card-title>
         </v-app-bar>
 
 
     <v-card-text class="mt-10">
-      <v-file-input
-          accept="image/*"
-          label="Photo"
-      ></v-file-input>
       <v-textarea
       counter
       label="Content"

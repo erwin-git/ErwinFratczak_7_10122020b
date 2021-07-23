@@ -5,6 +5,7 @@
       v-model="dialog"
       width="400"
       transition="dialog-top-transition"
+      
     >
       <template v-slot:activator="{ on, attrs }">
         <v-list-item v-bind="attrs" v-on="on">
@@ -17,38 +18,67 @@
         </v-list-item>
       </template>
 
-      <v-card width="500" height="600px">
-        <v-app-bar height="200px" color="primary" flat prominent>
-            <v-card-title class="white--text mt-8">
-                <v-layout column align-left>
-                    <h1 class="white--text heading">First</h1>
-                    <h2 class="white--text heading">LastName</h2>
-                </v-layout>
-                <v-layout column align-right class="ml-11 mt-10">
-                    <v-avatar size="150" class="grey lighten-8" >
-                        <img class="text-lg-center" src="../assets/icon.png">
-                    </v-avatar>
-                </v-layout>
-            
-            </v-card-title>
-        </v-app-bar>
+      <v-card
+    max-width="400"
+    class="mx-auto"
+
+            v-for="information in informations"
+        :key="information.lastName"
+  >
+    <v-img
+      :src="information.photo"
+      height="300px"
+      dark
+    >
+      <v-row class="fill-height">
+        <v-card-title>
+        </v-card-title>
+        <v-card-title class="white--text pl-12 pt-12 mt-16">
+          <div class="text-h4 pl-12 pt-12 mt-16">
+            <span>{{information.firstName}} {{information.lastName}}</span>
+          </div>
+        </v-card-title>
+      </v-row>
+    </v-img>
+
+    <v-list two-line>
+      
 
 
-<v-card-text class="mt-16">
-    <v-row align="center" class="mx-0">
-        <v-icon left>email</v-icon>
-        <h3>groupomania@gmail.com</h3>
-    </v-row>
 
-    <div class="mt-14 text-body-1 text-right">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias impedit exercitationem obcaecati animi doloribus, laudantium, voluptas libero odio nisi asperiores nesciunt repellat deleniti quas quis, tenetur vel optio tempora pariatur.</div>
-    </v-card-text>
-    <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn class="mt-10" align="right" color="primary" text @click="dialog = false">OK !</v-btn>
-        
-        </v-card-actions>
-    
-    </v-card>
+      
+
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon color="primary">
+            mdi-email
+          </v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title class="mb-3">e-Mail</v-list-item-title>
+          <v-list-item-subtitle>{{information.email}}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+
+
+      <v-divider inset></v-divider>
+
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon color="primary">
+            info
+          </v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title class="mb-3">Biography</v-list-item-title>
+          <v-list-item-text class="text-justify body-2">{{information.content}}</v-list-item-text>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </v-card>
     </v-dialog>
   </div>
 </template>
@@ -63,6 +93,11 @@ export default {
   data() {
     return {
         dialog: false,
+        informations: [
+          { photo: 'https://i.pravatar.cc/67', firstName: 'Erwin',lastName: 'Fratczak', email: 'erwin.fatczak@gmail.com', content: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,', },
+          
+          
+        ],
     }
   }
 }

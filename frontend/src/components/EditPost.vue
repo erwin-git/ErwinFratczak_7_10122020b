@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-dialog
@@ -9,19 +8,19 @@
       <template v-slot:activator="{ on, attrs }">
         <v-list-item v-bind="attrs" v-on="on">
             <v-list-item-action>
-                <v-icon left class="white--text">message</v-icon>
+                <v-icon >edit</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-                <v-list-item-title class="white--text">Add Post</v-list-item-title>
+                <v-list-item-title>Edit Post</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
       </template>
 
       <v-card >
-        <v-app-bar color="success" flat>
+        <v-app-bar color="warning" flat>
             <v-card-title>
-                <v-icon left class="white--text" >message</v-icon>
-                <span class="white--text heading">Add Post</span>
+                <v-icon left class="white--text" >edit</v-icon>
+                <span class="white--text heading">Edit Post</span>
             </v-card-title>
         </v-app-bar>
 
