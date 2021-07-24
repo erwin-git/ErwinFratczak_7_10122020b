@@ -36,11 +36,11 @@
             <v-layout column align-center>
                 <v-flex class="mt-5">
                     <v-avatar size="100">
-                        <img class="text-lg-center" src="../assets/icon.png">
+                        <img class="text-lg-center" :src="profil.imageURL">
                     </v-avatar>
                 
                 </v-flex>
-                <span class="white--text body-2 mt-5">FirstName LastName</span>
+                <span class="white--text body-2 mt-5">{{profil.firstName}} {{profil.lastName}}</span>
             </v-layout>
             <v-list class="mt-5">
                 <Profil />
@@ -74,7 +74,14 @@ export default {
             ]
         }
     },
-
+    computed: {
+        profil() {
+            return this.$store.getters.user;
+        }    
+    },
+    beforeMount() {
+        this.$store.dispatch("getUserById");
+    },
 }
     
 

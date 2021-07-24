@@ -1,6 +1,8 @@
 
 <template>
+
   <div>
+    
     <v-dialog
       v-model="dialog"
       width="400"
@@ -8,81 +10,88 @@
       overlay-opacity="1"
       overlay-color="primary"
     >
-
+      
       <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" >Sign Up</v-btn>
       </template>
 
-      <v-card width="500"  ref="form">
+
+      <v-card
+        class="mx-auto"
+        style="max-width: 500px;"
+      >
+          
+        
         <v-app-bar color="success" flat>
+          
             <v-card-title>
                 <v-icon left class="white--text" >add</v-icon>
                 <span class="white--text heading">Sign Up</span>
             </v-card-title>
         </v-app-bar>
+        
+        <v-form
+          ref="form"
+          v-model="form"
+          class="pa-4 pt-6"
+        >
 
+          <v-text-field
+            v-model="firstName"
 
-    <v-card-text class="mt-10">
-      <v-text-field
-              ref="firstName"
-              v-model="firstName"
-              :rules="[() => !!firstName || 'This field is required']"
-              :error-messages="errorMessages"
-              label="First Name"
-              placeholder="John"
-              required
-      ></v-text-field>
-      <v-text-field
-              ref="lastName"
-              v-model="lastName"
-              :rules="[() => !!lastName || 'This field is required']"
-              :error-messages="errorMessages"
-              label="Last Name"
-              placeholder="Schmit"
-              required
-      ></v-text-field>
-      <v-text-field
-              ref="email"
-              v-model="email"
-              :rules="[() => !!email || 'This field is required']"
-              :error-messages="errorMessages"
-              label="email"
-              placeholder="johnschmit@gmail.com"
-              required
-      ></v-text-field>
-      <v-file-input
-          accept="image/*"
-          label="Photo"
-      ></v-file-input>
-      <v-textarea
-      counter
-      label="Biography"
-      :rules="rules"
-      :value="value"
-      ></v-textarea>
-    </v-card-text>
+            label="First Name"
+          ></v-text-field>
+          <v-text-field
+            v-model="lastName"
+            label="Last Name"
+          ></v-text-field>
+          <v-text-field
+            v-model="email"
+            :rules="[rules.email]"
+            label="Email address"
+            type="email"
+          ></v-text-field>
+          <v-text-field
+            v-model="password"
+            :rules="[rules.password, rules.length(6)]"
+            counter="6"
+            label="Password"
+            style="min-height: 96px"
+            type="password"
+          ></v-text-field>
 
-<v-divider></v-divider>
-    <v-card-actions>
-      <v-btn
-        text
-        @click="$refs.form.reset()"
-      >
-        Clear
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn
-        :disabled="!form"
-        :loading="isLoading"
-        class="white--text"
-        color="deep-purple accent-4"
-        depressed
-      >
-        Submit
-      </v-btn>
-    </v-card-actions>
-    
-    </v-card>
+        <v-alert :value="alert" type="info" text dense v-html="message || errorMessage"></v-alert>
+
+        </v-form>
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-btn
+            text
+            @click="$refs.form.reset()"
+          >
+            Clear
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            :disabled="!form"
+            :loading="isLoading"
+            class="white--text"
+            color="success"
+            depressed
+            v-on:click.prevent="signup"
+            @click="alert = true"
+            
+            
+            
+            
+          >
+            Submit
+          </v-btn>
+        </v-card-actions>
+        
+      </v-card>
+
     </v-dialog>
   </div>
 </template>
@@ -92,12 +101,54 @@
 
 
 
-	<script>
-export default {
-  data() {
-    return {
-        dialog: false,
-    }
+<script>
+import Auth from "../services/Auth.js";
+  export default {
+    data: () => ({
+      alert: false,
+      agreement: false,
+      dialog: false,
+      email: undefined,
+      form: false,
+      isLoading: false,
+      password: undefined,
+      firstName: undefined,
+      lastName: undefined,
+      errorMessage: null,
+      message: null,
+      rules: {
+        email: v => !!(v || '').match(/@/) || 'Please enter a valid email',
+        length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
+        password: v => !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
+          'Password must contain an upper case letter, a numeric character, and a special character',
+        required: v => !!v || 'This field is required',
+      },
+    }),
+    methods: {
+    async signup() {
+      try {
+        const response = await Auth.signup({
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password,
+        });
+        this.message = response.data.message;
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
+        this.$store.dispatch("getUserById", response.data.user.id);
+
+      let router = this.$router;
+      setTimeout(function() {
+        router.push("/posts");
+      }, 1500);
+      } catch (error) {
+        this.errorMessage = error.response.data.error;
+        setTimeout(() => {
+          this.errorMessage = "Database Error !";
+        }, 1500);
+      }
+    },
+  },
   }
-}
 </script>

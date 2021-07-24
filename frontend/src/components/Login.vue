@@ -19,7 +19,11 @@
                 <span class="white--text heading">Login</span>
             </v-card-title>
         </v-app-bar>
-
+    <v-form
+      ref="form"
+      v-model="form"
+      class="pa-4 pt-6"
+    >
 
     <v-card-text class="mt-10">
             <v-text-field
@@ -37,7 +41,7 @@
         type="password"
       ></v-text-field>
     </v-card-text>
-
+  </v-form>
 <v-divider></v-divider>
     <v-card-actions>
       
@@ -91,6 +95,8 @@ export default {
         required: v => !!v || 'This field is required',
       },
     }
-  }
+  },
+  
+  
 }
 </script>

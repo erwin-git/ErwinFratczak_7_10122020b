@@ -1,5 +1,5 @@
 
-<template>
+<template v-slot:activator="{ on, attrs }">
   <div>
     <v-dialog
       v-model="dialog"
@@ -26,14 +26,17 @@
         </v-app-bar>
 
 
-    <v-card-text class="mt-10">
+    <v-card-text class="mt-10" >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
           <v-btn
             text
-            @click="agreement = false, dialog = false"
+            @click="agreement = true, dialog = false, deleteAccount(user.id)"
+            v-bind="attrs"
+            v-on="on"
+            
           >
             YES
           </v-btn>
@@ -41,7 +44,7 @@
           <v-btn
             class="white--text"
             color="primary"
-            @click="agreement = true, dialog = false"
+            @click="agreement = false, dialog = false"
           >
             NO
           </v-btn>
@@ -59,9 +62,23 @@
 
 	<script>
 export default {
+  
   data() {
     return {
         dialog: false,
+    }
+  },
+  computed: {
+    profil() {
+      return this.$store.getters.user;
+    }    
+  },
+  beforeMount() {
+    this.$store.dispatch("getUserById");
+  },
+  methods: {
+    deleteAccount(id) {
+      this.$store.dispatch("deleteAccount", id);
     }
   }
 }

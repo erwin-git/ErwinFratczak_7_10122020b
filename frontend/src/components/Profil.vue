@@ -1,11 +1,12 @@
 
 <template>
   <div>
-    <v-dialog
+    <v-dialog 
       v-model="dialog"
       width="400"
       transition="dialog-top-transition"
       
+
     >
       <template v-slot:activator="{ on, attrs }">
         <v-list-item v-bind="attrs" v-on="on">
@@ -18,15 +19,14 @@
         </v-list-item>
       </template>
 
-      <v-card
+  <v-card 
     max-width="400"
     class="mx-auto"
+        
 
-            v-for="information in informations"
-        :key="information.lastName"
   >
     <v-img
-      :src="information.photo"
+      :src="profil.imageURL"
       height="300px"
       dark
     >
@@ -35,7 +35,7 @@
         </v-card-title>
         <v-card-title class="white--text pl-12 pt-12 mt-16">
           <div class="text-h4 pl-12 pt-12 mt-16">
-            <span>{{information.firstName}} {{information.lastName}}</span>
+            <span>{{profil.firstName}} {{profil.lastName}}</span>
           </div>
         </v-card-title>
       </v-row>
@@ -57,7 +57,7 @@
 
         <v-list-item-content>
           <v-list-item-title class="mb-3">e-Mail</v-list-item-title>
-          <v-list-item-subtitle>{{information.email}}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{profil.email}}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -74,7 +74,7 @@
 
         <v-list-item-content>
           <v-list-item-title class="mb-3">Biography</v-list-item-title>
-          <v-list-item-text class="text-justify body-2">{{information.content}}</v-list-item-text>
+          <v-list-item-text class="text-justify body-2">{{profil.biography}}</v-list-item-text>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -88,17 +88,23 @@
 
 
 
-	<script>
+<script>
 export default {
+  name: "profil",
+
   data() {
-    return {
-        dialog: false,
-        informations: [
-          { photo: 'https://i.pravatar.cc/67', firstName: 'Erwin',lastName: 'Fratczak', email: 'erwin.fatczak@gmail.com', content: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,', },
-          
-          
-        ],
-    }
-  }
-}
+    return { 
+      dialog: false,     
+    };
+  },
+  computed: {
+    profil() {
+      return this.$store.getters.user;
+    }    
+  },
+  beforeMount() {
+    this.$store.dispatch("getUserById");
+  },
+  
+};
 </script>

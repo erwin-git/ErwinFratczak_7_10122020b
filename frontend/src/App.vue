@@ -22,5 +22,14 @@ export default {
   data: () => ({
     //
   }),
+  computed:{
+     user() {
+       return this.$store.getters.user
+     }
+   },
+  mounted() {
+     this.$store.dispatch("getUsers");
+     this.$store.dispatch("getUserById", this.user.id);
+   }
 };
 </script>
