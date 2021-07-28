@@ -62,9 +62,9 @@ export default {
       return this.$store.getters.users;
     }    
   },
-  beforeMount() {
-    this.$store.dispatch("getUsers");
-  },
+    beforeMount() {
+      this.$store.dispatch("getUsers");
+    },
   
 };
 </script>

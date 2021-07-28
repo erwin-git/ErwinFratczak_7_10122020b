@@ -1,6 +1,7 @@
 
 <template>
   <div>
+    <v-alert :value="alert" type="info" text dense v-html="message || errorMessage"></v-alert>
     <v-dialog
       v-model="dialog"
       width="400"
@@ -41,7 +42,9 @@
           <v-btn
             class="white--text"
             color="primary"
+            v-on:click.prevent="logOut"
             @click="agreement = true, dialog = false"
+
           >
             NO
           </v-btn>
@@ -63,6 +66,12 @@ export default {
     return {
         dialog: false,
     }
-  }
+  },
+    methods: {
+    logOut: function() {
+      this.$store.dispatch("logOut");
+    },
+  },
+  
 }
 </script>

@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Posts from '../views/Posts.vue'
 import Users from '../views/Users.vue'
 import Profil from '../components/Profil.vue';
+import DeleteProfil from '../components/DeleteProfil.vue';
 
 Vue.use(VueRouter)
 
@@ -36,6 +37,12 @@ const routes = [
     name: 'Profil',
     component: Profil,
   },
+  {
+    path: '/profil/:id',
+    name: 'DeleteProfil',
+    component: DeleteProfil,
+  },
+
 ]
 
 const router = new VueRouter({

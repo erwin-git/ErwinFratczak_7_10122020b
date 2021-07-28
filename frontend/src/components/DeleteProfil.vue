@@ -17,7 +17,7 @@
         </v-list-item>
       </template>
 
-      <v-card width="500" ref="form">
+      <v-card width="500" height="210" ref="form">
         <v-app-bar color="error" flat>
             <v-card-title>
                 <v-icon left class="white--text" >delete</v-icon>
@@ -26,43 +26,65 @@
         </v-app-bar>
 
 
-    <v-card-text class="mt-10">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        <v-card-text class="mt-10 body-1">
+          Do you really want to delete your account ?? 
         </v-card-text>
+        
+        
         <v-divider></v-divider>
-        <v-card-actions>
+
+        <v-card-actions v-if="$store.state.isLoggedIn" class="mt-2">
           <v-btn
             text
-            @click="agreement = false, dialog = false"
+            @click="agreement = false, deleteAccount(user.id)"
           >
             YES
           </v-btn>
           <v-spacer></v-spacer>
+          
           <v-btn
             class="white--text"
             color="primary"
             @click="agreement = true, dialog = false"
+            
           >
             NO
           </v-btn>
         </v-card-actions>
-    
+        <v-alert v-else alert="true" type="error" text dense >Votre compte a été supprimé</v-alert>
     </v-card>
     </v-dialog>
   </div>
 </template>
 
 
-
-
-
-
-	<script>
+<script>
 export default {
+  name: "DeleteProfil",
   data() {
     return {
-        dialog: false,
+      dialog: false,
     }
-  }
-}
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+  },
+  beforeMount() {
+    this.$store.dispatch("getUserById");
+  },
+  methods: {
+    getBackHome() {
+      this.$router.push("/");
+    },
+    deleteAccount(id) {
+      this.$store.dispatch("deleteAccount", id);
+      this.$store.dispatch("logOut");
+      setTimeout(() => {
+        this.getBackHome();
+      }, 2000);
+    },
+  },
+};
 </script>

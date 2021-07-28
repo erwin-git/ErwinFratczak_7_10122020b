@@ -34,22 +34,29 @@
           ref="form"
           v-model="form"
           class="pa-4 pt-6"
+          
         >
 
           <v-text-field
             v-model="firstName"
-
             label="First Name"
+            type="text"
+            :rules="[(v) => !!v || 'First Name is required']"
+            required
           ></v-text-field>
           <v-text-field
             v-model="lastName"
             label="Last Name"
+            type="text"
+            :rules="[(v) => !!v || 'Last Name is required']"
+            required
           ></v-text-field>
           <v-text-field
             v-model="email"
             :rules="[rules.email]"
             label="Email address"
             type="email"
+            required
           ></v-text-field>
           <v-text-field
             v-model="password"
@@ -58,6 +65,7 @@
             label="Password"
             style="min-height: 96px"
             type="password"
+            required
           ></v-text-field>
 
         <v-alert :value="alert" type="info" text dense v-html="message || errorMessage"></v-alert>
@@ -80,8 +88,7 @@
             color="success"
             depressed
             v-on:click.prevent="signup"
-            @click="alert = true"
-            
+            @click="alert = true, $refs.form.reset()"
             
             
             
@@ -104,12 +111,13 @@
 <script>
 import Auth from "../services/Auth.js";
   export default {
+    name: "Signup",
     data: () => ({
       alert: false,
       agreement: false,
       dialog: false,
       email: undefined,
-      form: false,
+      form: true,
       isLoading: false,
       password: undefined,
       firstName: undefined,
@@ -132,6 +140,7 @@ import Auth from "../services/Auth.js";
           lastName: this.lastName,
           email: this.email,
           password: this.password,
+          
         });
         this.message = response.data.message;
         this.$store.dispatch("setToken", response.data.token);
@@ -141,12 +150,20 @@ import Auth from "../services/Auth.js";
       let router = this.$router;
       setTimeout(function() {
         router.push("/posts");
-      }, 1500);
+      }, 3500);
+      setTimeout(() => {
+          this.alert=false;
+        }, 3000)
+
+
       } catch (error) {
         this.errorMessage = error.response.data.error;
+        
         setTimeout(() => {
-          this.errorMessage = "Database Error !";
-        }, 1500);
+          this.alert=false;
+          this.errorMessage = "";
+          
+        }, 3000);
       }
     },
   },

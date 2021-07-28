@@ -101,7 +101,7 @@ export default {
   data() {
     return {
       profils: [
-        { photo: '../assets/icon.png', firstName: 'Erwin', lastName: 'Fratczak', content: 'bla bla bla', createdAt: '2021-07-19 14:42:10'},
+        { photo: '../assets/icon.png', firstName: 'Erwinghj', lastName: 'Fratczakhgj', content: 'bla bla bla', createdAt: '2021-07-19 14:42:10'},
         { photo: '../assets/icon.png', firstName: 'Erwin', lastName: 'Fratczak', content: 'bla bla bla', createdAt: '2021-07-19 14:42:10'},
         
       ],

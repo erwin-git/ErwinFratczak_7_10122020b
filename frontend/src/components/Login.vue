@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    
     <v-dialog
       v-model="dialog"
       transition="dialog-top-transition"
@@ -23,6 +23,7 @@
       ref="form"
       v-model="form"
       class="pa-4 pt-6"
+      
     >
 
     <v-card-text class="mt-10">
@@ -41,11 +42,13 @@
         type="password"
       ></v-text-field>
     </v-card-text>
+    <v-alert :value="alert" type="info" text dense v-html="message || errorMessage"></v-alert>
   </v-form>
 <v-divider></v-divider>
     <v-card-actions>
       
       <Signup />
+      <v-spacer></v-spacer>
       <v-btn
         text
         @click="$refs.form.reset()"
@@ -59,6 +62,8 @@
         class="white--text"
         color="deep-purple accent-4"
         depressed
+        v-on:click.prevent="login"
+        @click="alert = true, $refs.form.reset()"
       >
         Submit
       </v-btn>
@@ -76,12 +81,15 @@
 
 	<script>
 import Signup from './Signup.vue'
-
+import Auth from "../services/Auth.js";
 export default {
   components: { Signup },
   data() {
     return {
         dialog: true,
+        alert: false,
+        message: null,
+        errorMessage: null,
         agreement: false,
         email: undefined,
         form: false,
@@ -95,6 +103,36 @@ export default {
         required: v => !!v || 'This field is required',
       },
     }
+  },
+  methods: {
+    async login() {
+      try {
+        const response = await Auth.login({
+          email: this.email,
+          password: this.password,
+        });
+        this.message = response.data.message;
+  
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
+        this.$store.dispatch("getUserById", response.data.user.id);
+        let router = this.$router;
+        setTimeout(() => {
+          router.push({ path: '/posts', })
+        }, 3000);
+        setTimeout(() => {
+          this.alert=false;
+        }, 3000)
+      } catch (error) {
+        this.errorMessage = error.response.data.error;
+        setTimeout(() => {
+          this.alert=false;
+          this.email= "";
+          this.password= "";
+          this.errorMessage = "";
+        }, 3000);
+      }
+    },
   },
   
   
