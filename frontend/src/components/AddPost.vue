@@ -17,7 +17,12 @@
         </v-list-item>
       </template>
 
+
       <v-card >
+      <v-form
+        ref="form"
+        v-model="form">
+      
         <v-app-bar color="success" flat>
             <v-card-title>
                 <v-icon left class="white--text" >message</v-icon>
@@ -27,18 +32,31 @@
 
 
     <v-card-text class="mt-10">
-      <v-file-input
-          accept="image/*"
-          label="Photo"
-      ></v-file-input>
+
+      <label for="image" class="body-1 pr-2">Image</label>
+        <input
+          @change="uploadImage"
+          type="file"
+          accept="image/png, image/jpeg,
+          image/bmp, image/gif"
+          ref="file"
+          name="image"
+          
+        />
+
+
+
       <v-textarea
       counter
       label="Content"
-      :rules="rules"
+      v-model="content"
+      :rules="[rules.required]"
       :value="value"
       ></v-textarea>
     </v-card-text>
 
+    <v-alert :value="alert" type="info" text dense v-html="messageRetour || errorMessage"></v-alert>
+</v-form>
 <v-divider></v-divider>
     <v-card-actions>
       <v-btn
@@ -49,11 +67,14 @@
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn
+        v-on:click.prevent="onSubmit"
         :disabled="!form"
         :loading="isLoading"
         class="white--text"
         color="deep-purple accent-4"
         depressed
+        @click="alert = true, $refs.form.reset()"
+        
       >
         Submit
       </v-btn>
@@ -65,16 +86,50 @@
 </template>
 
 
-
-
-
-
-	<script>
+<script>
 export default {
+  name: "AddPost",
+
   data() {
     return {
-        dialog: false,
-    }
-  }
-}
+      dialog: false,
+      alert: false,
+      form: true,
+      content: "",
+      file: "",
+      rules: {
+        required: (value) => !!value || "Required.",
+      },
+    };
+  },
+  computed: {
+    messageRetour() {
+      return this.$store.getters.messageRetour;
+    },
+    errorMessage() {
+      return this.$store.getters.errorMessage;
+    },
+  },
+  methods: {
+    uploadImage() {
+      const file = this.$refs.file.files[0];
+      this.file = file;
+    },
+    onSubmit() {
+      const formData = new FormData();
+      formData.append("content", this.content);
+      if (this.file !== null) {
+        formData.append("image", this.file);
+      }
+      this.$store.dispatch("createPost", formData);
+      this.$router.push("/post");
+      
+      setTimeout(() => {
+          this.alert=false;
+          this.dialog=false;
+        }, 3000)
+    },
+  },
+};
 </script>
+

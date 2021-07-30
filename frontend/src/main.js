@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router'; // vue-router instance
 import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css';
 import vuetify from './plugins/vuetify';
 import store from './store/store'; // vuex store instance
 import { sync } from 'vuex-router-sync'; 

@@ -118,7 +118,7 @@ export default {
         this.$store.dispatch("getUserById", response.data.user.id);
         let router = this.$router;
         setTimeout(() => {
-          router.push({ path: '/posts', })
+          router.push({ path: '/post', })
         }, 3000);
         setTimeout(() => {
           this.alert=false;

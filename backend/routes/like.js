@@ -9,9 +9,9 @@ const auth = require('../middleware/auth')
 
 
 
-router.post('/like', auth, likeCtrl.createLike)
-router.get('/like/:id', auth, likeCtrl.getOneLike)
-router.get('/like/', auth, likeCtrl.getAllLikes)
+//router.post('/like', auth, likeCtrl.likePost)
+//router.get('/like/:id', auth, likeCtrl.getOneLike)
+//router.get('/like/', auth, likeCtrl.getAllLikes)
 
 
 module.exports = router 

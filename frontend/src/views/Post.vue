@@ -1,6 +1,6 @@
 <template>
   
-          <div class="posts">
+          <div class="post">
             
             <v-container>
 
@@ -9,17 +9,21 @@
                   <v-hover v-slot:default="{ hover }">
           <v-container>
             <v-row justify="space-around" >
-              <v-card width="800" v-for="profil in profils" :key="profil.lastName" class="mb-16 mt-10 elevation-15">
+              <v-card width="800" 
+              v-for="post in posts" 
+              :key="post.id" 
+              class="mb-16 mt-10 elevation-15">
                 <v-img
-                  height="500px"
-                  src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
+                  height="300px"
+                  :src="post.fileUrl"
                   :aspect-ratio="16/9"
                 >
                 <v-expand-transition>
                   <div
                     v-if="hover"
-                    class="d-flex transition-fast-in-fast-out transparent darken-2 v-card--reveal display-3 white--text"
-                    style="height: 20%;"
+                    class="d-flex transition-fast-in-fast-out primary darken-2 v-card--reveal display-3 white--text"
+                    style="height: 30%;"
+                    
                   >
                     Like it ?
                   </div>
@@ -30,14 +34,17 @@
 
                   <v-menu bottom left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn dark icon v-bind="attrs" v-on="on">
-                        <v-icon>mdi-dots-vertical</v-icon>
+                      <v-btn dark icon v-bind="attrs" v-on="on" @click="getOnePost(post.id)">
+                        <v-icon>mdi-arrow-right</v-icon>
                       </v-btn>
                     </template>
 
                     <v-list>
                       <EditPost />
                       <DeletePost />
+                      
+                            
+                            
                     </v-list>
                   </v-menu>
                   </v-app-bar>
@@ -51,12 +58,12 @@
                       <img
                         
                         alt="user"
-                        src="../assets/icon.png"
+                        :src="post.User.imageURL"
                       >
                     </v-avatar>
                     <v-layout column align-left class="ml-5">
-                        <h1 class="heading">{{ profil.firstName }}</h1>
-                        <h2 class="heading">{{ profil.lastName }}</h2>
+                        <h1 class="heading">{{ post.User.firstName }}</h1>
+                        <h2 class="heading">{{ post.User.lastName }}</h2>
                     </v-layout>
 
                     <p class="mt-6 mr-2">0</p>
@@ -69,15 +76,11 @@
 
                 <v-card-text>
                   <div>
-                    <p class="mt-4 mb-4 text-body-1 text-justify">{{ profil.content }}</p>
-                    <p class="caption text-right">{{ new Date(profil.createdAt).toLocaleString()}}</p>
+                    
+                    <p class="mt-4 mb-4 text-h6 text-justify"><v-icon class="mr-5 ml-11">message</v-icon>{{ post.content }}</p>
+                    <p class="caption text-right mr-5" ><v-icon class="mr-3 ml-10">mdi-calendar</v-icon>{{ new Date(post.createdAt).toLocaleString()}}</p>
                   </div>
-
-
                 </v-card-text>
-
-
-
               </v-card>
             </v-row>
           </v-container>
@@ -94,21 +97,48 @@
 <script>
 import EditPost from '../components/EditPost.vue'
 import DeletePost from '../components/DeletePost.vue'
-
-
+import PostService from "../services/PostService";
 export default {
-  components: { EditPost, DeletePost },
-  data() {
+  components: { EditPost, DeletePost,},
+  name: "Post",
+
+  props: {
+    post: {
+      type: Object,
+    },
+  },
+  data: function() {
     return {
-      profils: [
-        { photo: '../assets/icon.png', firstName: 'Erwinghj', lastName: 'Fratczakhgj', content: 'bla bla bla', createdAt: '2021-07-19 14:42:10'},
-        { photo: '../assets/icon.png', firstName: 'Erwin', lastName: 'Fratczak', content: 'bla bla bla', createdAt: '2021-07-19 14:42:10'},
-        
-      ],
-      
-    }
-  }
-}
+      messageRetour: null,
+      errorMessage: null,
+    };
+  },
+  computed: {
+      posts() {
+      return this.$store.getters.posts;
+    },
+  },
+
+  beforeMount() {
+    this.$store.dispatch("getPosts");
+  },
+
+  methods: {
+    async getAll() {
+      try {
+        const response = await PostService.getPosts();
+        this.posts = response.data;
+      } catch (error) {
+        this.errorMessage = error.response.data.error;
+      }
+    },
+    getOnePost(id) {
+      this.$router.push(`post/${id}`);
+    },
+
+
+  },
+};
 </script>
 
 <style>
@@ -116,8 +146,8 @@ export default {
   align-items: center;
   bottom: 0;
   justify-content: center;
-  opacity: .9;
+  opacity: .6;
   position: absolute;
-  width: 30%;
+  width: 100%;
 }
 </style>

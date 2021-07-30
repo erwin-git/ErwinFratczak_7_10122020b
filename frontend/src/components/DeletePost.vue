@@ -33,7 +33,7 @@
         <v-card-actions>
           <v-btn
             text
-            @click="agreement = true, dialog = false, deleteAccount(user.id)"
+            @click="agreement = true, dialog = false, deletePost(post.id)"
             v-bind="attrs"
             v-on="on"
             
@@ -55,12 +55,7 @@
   </div>
 </template>
 
-
-
-
-
-
-	<script>
+<script>
 export default {
   
   data() {
@@ -69,17 +64,18 @@ export default {
     }
   },
   computed: {
-    profil() {
-      return this.$store.getters.user;
+    post() {
+      return this.$store.getters.post;
     }    
   },
   beforeMount() {
-    this.$store.dispatch("getUserById");
+    let id = this.$route.params.id;
+    this.$store.dispatch("getPostById", id);
   },
   methods: {
-    deleteAccount(id) {
-      this.$store.dispatch("deleteAccount", id);
-    }
+    deletePost(id) {
+      this.$store.dispatch("deletePost", id);
+    },
   }
 }
 </script>

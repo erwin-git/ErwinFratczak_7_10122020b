@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Posts from '../views/Posts.vue'
+import Post from '../views/Post.vue'
 import Users from '../views/Users.vue'
 import Profil from '../components/Profil.vue';
 import DeleteProfil from '../components/DeleteProfil.vue';
+import OnePost from '../components/OnePost.vue';
+
+
 
 Vue.use(VueRouter)
 
@@ -15,9 +18,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/posts',
-    name: 'Posts',
-    component: Posts
+    path: '/post',
+    name: 'Post',
+    component: Post
   },
   {
     path: '/users',
@@ -41,6 +44,11 @@ const routes = [
     path: '/profil/:id',
     name: 'DeleteProfil',
     component: DeleteProfil,
+  },
+  {
+    path: '/post/:id',
+    name: 'OnePost',
+    component: OnePost,
   },
 
 ]

@@ -68,7 +68,7 @@ export default {
             drawer: false,
             links: [
                 {icon: 'home', text: 'Home', route: '/'},
-                {icon: 'dashboard', text: 'Posts', route: '/posts'},
+                {icon: 'dashboard', text: 'Posts', route: '/post'},
                 {icon: 'group', text: 'Users', route: '/users'},
                 {icon: 'info', text: 'About', route: '/about'},
             ]

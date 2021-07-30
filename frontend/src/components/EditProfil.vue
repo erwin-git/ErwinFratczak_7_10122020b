@@ -1,9 +1,9 @@
-// file name and buttons alerts
+// alerts
 <template>
   <div>
     <v-dialog
       v-model="dialog"
-      width="400"
+      max-width="600"
       transition="dialog-top-transition"
     >
       <template v-slot:activator="{ on, attrs }">
@@ -16,7 +16,7 @@
             </v-list-item-content>
         </v-list-item>
       </template>
-      <v-card width="400px" >
+      <v-card >
       <v-form
           ref="form"
           v-model="form">
@@ -52,13 +52,14 @@
 
 
 
-      <label for="image" class="body-1" >Photo: </label>
+      <label for="image" class="body-1 pr-2" >Photo: </label>
       <input
         @change="uploadImage"
         type="file"
         accept="image/png, image/jpeg, image/bmp, image/gif"
         ref="file"
         name="image"
+        class="input-group--focused"
       >
 
 
@@ -114,7 +115,7 @@ export default {
     return {
       alert: false,
       dialog: false,
-      isValid: true,
+      form: true,
       biography: "",
       firstName: "",
       lastName: "",
@@ -166,7 +167,7 @@ export default {
 
       let router = this.$router;
       setTimeout(function() {
-        router.push("/posts");
+        router.push("/post");
       }, 3500);
       setTimeout(() => {
           this.alert=false;

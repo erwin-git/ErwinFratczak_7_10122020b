@@ -2,33 +2,33 @@ import Api from "../services/Api";
 
 export default {
   getPosts() {
-    return Api().get("posts");
+    return Api().get("post");
   },
   getHotPosts() {
-    return Api().get("posts/hot");
+    return Api().get("post/hot");
   },
   getPostById(id) {
-    return Api().get("posts/" + id);
+    return Api().get("post/" + id);
   },
   createPost(data) {
-    return Api().post("posts/add", data);
+    return Api().post("post/", data);
   },
   updatePost(id, data) {
-    return Api.put("posts/" + id, data);
+    return Api.put("post/" + id, data);
   },
 
   deletePost(id) {
-    return Api().delete("posts/" + id);
+    return Api().delete("post/" + id);
   },
   likePost(id) {
-    return Api().post("posts/" + id) + "/like";
+    return Api().post("post/" + id) + "/like";
   },
 
   commentPost(id, data) {
-    return Api().post("posts/" + id + "/comments", data);
+    return Api().post("post/" + id + "/comments", data);
   },
 
   deleteComment(id) {
-    return Api().delete("posts/comments/" + id);
+    return Api().delete("post/comments/" + id);
   },
 };

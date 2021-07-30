@@ -6,7 +6,7 @@
       max-width="600"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-list-item v-bind="attrs" v-on="on">
+        <v-list-item v-bind="attrs" v-on="on" >
             <v-list-item-action>
                 <v-icon >edit</v-icon>
             </v-list-item-action>
@@ -17,6 +17,9 @@
       </template>
 
       <v-card >
+        <v-form
+        ref="form"
+        v-model="form">
         <v-app-bar color="warning" flat>
             <v-card-title>
                 <v-icon left class="white--text" >edit</v-icon>
@@ -26,17 +29,28 @@
 
 
     <v-card-text class="mt-10">
-      <v-file-input
-          accept="image/*"
-          label="Photo"
-      ></v-file-input>
+            
+      <label for="image" class="body-1 pr-2">Image</label>
+        <input
+          @change="uploadImage"
+          type="file"
+          accept="image/png, image/jpeg,
+          image/bmp, image/gif"
+          ref="file"
+          name="image"
+        />
+
       <v-textarea
       counter
       label="Content"
-      :rules="rules"
-      :value="value"
+      v-model="content"
+      :placeholder="post.content"
       ></v-textarea>
+
     </v-card-text>
+
+    
+</v-form>
 
 <v-divider></v-divider>
     <v-card-actions>
@@ -48,11 +62,13 @@
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn
+        v-on:click.prevent="onSubmit"
         :disabled="!form"
-        :loading="isLoading"
         class="white--text"
         color="deep-purple accent-4"
         depressed
+        @click="alert = true, $refs.form.reset()"
+        
       >
         Submit
       </v-btn>
@@ -66,14 +82,52 @@
 
 
 
-
-
-	<script>
+<script>
 export default {
+  name: "EditPost",
+
   data() {
     return {
-        dialog: false,
-    }
-  }
-}
+      dialog: false,
+      alert: false,
+      form: true,
+      content: "",
+      file: "",
+    };
+  },
+  computed: {
+    post() {
+      return this.$store.getters.post;
+    },
+  
+  },
+  beforeMount() {
+  let id = this.$route.params.id;
+  this.$store.dispatch("getPostById", id);
+  },
+  methods: {
+    uploadImage() {
+      const file = this.$refs.file.files[0];
+      this.file = file;
+    },
+    onSubmit() {
+      let id = this.$route.params.id;
+      const formData = new FormData();
+      if (this.content !== null) {
+        formData.append("content", this.content);
+      }
+
+      formData.append("image", this.file);
+      this.$store.dispatch("getPosts");
+      this.$store.dispatch("updatePost", formData);
+      this.$store.dispatch("getPostById", id);
+      this.$router.push("/post");
+      
+      setTimeout(() => {
+          this.alert=false;
+          this.dialog=false;
+        }, 3000)
+    },
+  },
+};
 </script>

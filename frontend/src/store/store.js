@@ -107,7 +107,7 @@ export default new Vuex.Store({
     },
     ADD_POST(state, post) {
       state.posts = [post, ...state.posts];
-      state.message = "post créé";
+      state.message = "Votre post est ajouté";
     },
     UPDATE_POST(state, id, post) {
       Object.assign(
@@ -232,7 +232,7 @@ export default new Vuex.Store({
     updatePost({ commit }, data) {
       let id = this.state.post.id;
       axios
-        .put(`http://localhost:3000/api/posts/${id}`, data, {
+        .put(`http://localhost:3000/api/post/${id}`, data, {
           headers: { Authorization: this.state.token },
         })
         .then((response) => {
@@ -259,7 +259,7 @@ export default new Vuex.Store({
     likePost({ commit }, payload) {
       axios
         .post(
-          `http://localhost:3000/api/posts/${payload.id}/like`,
+          `http://localhost:3000/api/post/${payload.id}/like`,
           payload.data,
           { headers: { Authorization: this.state.token } }
         )
@@ -281,7 +281,7 @@ export default new Vuex.Store({
     commentPost({ commit }, payload) {
       axios
         .post(
-          `http://localhost:3000/api/posts/${payload.id}/comments`,
+          `http://localhost:3000/api/post/${payload.id}/comments`,
           payload.data,
           { headers: { Authorization: this.state.token } }
         )

@@ -2,7 +2,19 @@
   <div class="posts">
     
     <v-container>
+      
+      <template v-slot:activator="{ on, attrs }">
+        <v-list-item v-bind="attrs" v-on="on">
+            <v-list-item-action>
+                <v-icon >edit</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+                <v-list-item-title>Edit Post</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+      </template>
 
+      
       <v-layout column >
         <template>
   <v-container>

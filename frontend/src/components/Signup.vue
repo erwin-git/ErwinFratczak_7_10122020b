@@ -149,7 +149,7 @@ import Auth from "../services/Auth.js";
 
       let router = this.$router;
       setTimeout(function() {
-        router.push("/posts");
+        router.push("/post");
       }, 3500);
       setTimeout(() => {
           this.alert=false;
