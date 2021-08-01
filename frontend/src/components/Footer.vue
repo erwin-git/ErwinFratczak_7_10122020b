@@ -2,11 +2,15 @@
   <v-footer
     dark
     padless
+    relative
+    
+    
   >
     <v-card
       class="flex"
       flat
       tile
+      
     >
       <v-card-title class="primary">
         <strong class="subheading">Get connected with us on social networks!</strong>

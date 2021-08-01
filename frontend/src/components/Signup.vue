@@ -5,20 +5,22 @@
     
     <v-dialog
       v-model="dialog"
-      width="400"
+      width="600"
       transition="dialog-top-transition"
-      overlay-opacity="1"
+      overlay-opacity=".8"
       overlay-color="primary"
     >
       
       <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" >Sign Up</v-btn>
+        <v-btn fab v-bind="attrs" v-on="on" class="mt-10" x-large> 
+          <v-icon>mdi-account-plus-outline</v-icon>
+        </v-btn>
       </template>
 
 
       <v-card
         class="mx-auto"
-        style="max-width: 500px;"
+        style="max-width: 600px;"
       >
           
         
@@ -60,8 +62,8 @@
           ></v-text-field>
           <v-text-field
             v-model="password"
-            :rules="[rules.password, rules.length(6)]"
-            counter="6"
+            :rules="[rules.password, rules.length(8)]"
+            counter="20"
             label="Password"
             style="min-height: 96px"
             type="password"
@@ -150,10 +152,10 @@ import Auth from "../services/Auth.js";
       let router = this.$router;
       setTimeout(function() {
         router.push("/post");
-      }, 3500);
+      }, 2500);
       setTimeout(() => {
           this.alert=false;
-        }, 3000)
+        }, 2000)
 
 
       } catch (error) {
@@ -163,7 +165,7 @@ import Auth from "../services/Auth.js";
           this.alert=false;
           this.errorMessage = "";
           
-        }, 3000);
+        }, 2000);
       }
     },
   },

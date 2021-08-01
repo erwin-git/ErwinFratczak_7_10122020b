@@ -59,9 +59,9 @@ exports.getAllPosts = async (req, res) => {
           model: db.like,
           attributes: ["idUser"],
         },
-        /*{
+        {
           model: db.comment,
-          attributes: ["content", "firstName", "lastName", "idUser", "id"],
+          attributes: ["content","idUser", "id"],
           order: [["createdAt", "DESC"]],
           include: [
             {
@@ -69,7 +69,7 @@ exports.getAllPosts = async (req, res) => {
               attributes: ["imageURL", "firstName", "lastName"],
             },
           ],
-        },*/
+        },
       ],
     });
     res.status(200).send(posts);
@@ -92,19 +92,25 @@ exports.getOnePost = async (req, res) => {
         },
         {
           model: db.like,
-          attributes: ["idPost", "idUser"],
-        },
-        /*{
-          model: db.comment,
-          order: [["createdAt", "DESC"]],
-          attributes: ["content", "firstName", "lastName", "idUser",],
+          attributes: ["idPost", "idUser", "id", "createdAt"],
           include: [
             {
               model: db.User,
               attributes: ["imageURL", "firstName", "lastName"],
             },
           ],
-        },*/
+        },
+        {
+          model: db.comment,
+          order: [["createdAt", "DESC"]],
+          attributes: ["content", "idUser", "createdAt", "id",],
+          include: [
+            {
+              model: db.User,
+              attributes: ["imageURL", "firstName", "lastName"],
+            },
+          ],
+        },
       ],
     });
     res.status(200).json(post);
@@ -197,4 +203,39 @@ exports.likePost = async (req, res, next) => {
     return res.status(500).send({ error: "Erreur serveur" });
   }
 };
+
+exports.addComment = async (req, res) => {
+  try {
+    const comment = req.body.content;
+    const newComment = await db.comment.create({
+      content: comment,
+      idUser: token.getUserId(req),
+      idPost: req.params.id,
+    });
+
+    res
+      .status(201)
+      .json({ newComment, messageRetour: "votre commentaire est publié" });
+  } catch (error) {
+    return res.status(500).send({ error: "Erreur serveur" });
+  }
+};
+
+exports.deleteComment = async (req, res) => {
+  try {
+    const userId = token.getUserId(req);
+    //const checkAdmin = await db.User.findOne({ where: { id: userId } });
+    const comment = await db.comment.findOne({ where: { id: req.params.id } });
+
+    if (userId === comment.idUser /*|| checkAdmin.admin === true*/) {
+      db.comment.destroy({ where: { id: req.params.id } }, /*{ truncate: true }*/);
+      res.status(200).json({ message: "commentaire supprimé" });
+    } else {
+      res.status(400).json({ message: "Vous n'avez pas les droits requis" });
+    }
+  } catch (error) {
+    return res.status(500).send({ error: "Erreur serveur" });
+  }
+};
+
 

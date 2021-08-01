@@ -2,34 +2,43 @@
   
           <div class="post">
             
-            <v-container>
+            <v-container class="mb-16">
 
               <v-layout column >
                 <template>
-                  <v-hover v-slot:default="{ hover }">
+                  
           <v-container>
             <v-row justify="space-around" >
               <v-card width="800" 
               v-for="post in posts" 
               :key="post.id" 
-              class="mb-16 mt-10 elevation-15">
+              class="mb-16 mt-10 elevation-24">
+              <v-hover v-slot:default="{ hover }">
                 <v-img
-                  height="300px"
+                  height="500px"
                   :src="post.fileUrl"
+                  lazy-src="https://picsum.photos/510/300?random"
                   :aspect-ratio="16/9"
+                  @click="getOnePost(post.id)"
                 >
+                
                 <v-expand-transition>
-                  <div
+                  <div 
                     v-if="hover"
-                    class="d-flex transition-fast-in-fast-out primary darken-2 v-card--reveal display-3 white--text"
-                    style="height: 30%;"
+                    class="text-center text-h5 d-flex transition-fast-in-fast-out primary darken-2 v-card--reveal display-3 white--text"
+                    style="bottom: 0%; top: 0%;"
                     
                   >
-                    Like it ?
+                    {{ post.content }}
                   </div>
                 </v-expand-transition>
                 
-                  <v-app-bar flat prominent color="rgba(0, 0, 0, 0)" height="600px">
+                  <v-app-bar flat color="rgba(0, 0, 0, 0)" height="940px">
+
+                  <v-app-bar-nav-icon color="white">
+                    <span class="font-weight-black ml-15">{{ post.likes.length }} <v-icon color="error">mdi-heart</v-icon>    {{ post.comments.length }} <v-icon color="success">mdi-message</v-icon></span>
+                  </v-app-bar-nav-icon>
+                  
                     <v-spacer></v-spacer>
 
                   <v-menu bottom left>
@@ -38,53 +47,60 @@
                         <v-icon>mdi-arrow-right</v-icon>
                       </v-btn>
                     </template>
-
-                    <v-list>
-                      <EditPost />
-                      <DeletePost />
-                      
-                            
-                            
-                    </v-list>
                   </v-menu>
-                  </v-app-bar>
-                    
-
-
-                </v-img>
-
-                <v-card-title>
-                    <v-avatar size="100" class="ml-1 elevation-15">
-                      <img
-                        
-                        alt="user"
-                        :src="post.User.imageURL"
-                      >
-                    </v-avatar>
-                    <v-layout column align-left class="ml-5">
-                        <h1 class="heading">{{ post.User.firstName }}</h1>
-                        <h2 class="heading">{{ post.User.lastName }}</h2>
-                    </v-layout>
-
-                    <p class="mt-6 mr-2">0</p>
-                    <v-btn class="mx-2" fab dark large color="pink">
-                      <v-icon dark>mdi-heart</v-icon>
-                    </v-btn>
-
-                </v-card-title>
-
-
-                <v-card-text>
+                  </v-app-bar>   
                   <div>
                     
-                    <p class="mt-4 mb-4 text-h6 text-justify"><v-icon class="mr-5 ml-11">message</v-icon>{{ post.content }}</p>
-                    <p class="caption text-right mr-5" ><v-icon class="mr-3 ml-10">mdi-calendar</v-icon>{{ new Date(post.createdAt).toLocaleString()}}</p>
-                  </div>
-                </v-card-text>
+                  </div>             
+                </v-img>
+                </v-hover>
+
+                  <v-fab-transition>
+                    <v-btn
+                      color="transparent"
+                      top
+                      fab
+                      absolute
+                      x-large
+                      class="ml-10 mt-5"
+                    >
+                    
+                    <v-avatar size="100" class=" elevation-15">
+
+                      <v-img v-if="post.User.imageURL" :src="post.User.imageURL"></v-img>
+                      <v-img v-else src="../assets/icon.png"></v-img>
+
+                    </v-avatar>
+                    </v-btn>
+                    </v-fab-transition>
+                    
+                    
+
+
+                    <v-fab-transition>
+                      <v-btn class="mr-10"
+                        color="error"
+                        dark
+                        absolute
+                        bottom
+                        right
+                        fab
+                        small
+                        @click="likePost(post.id)"
+                      >
+                        <v-icon>mdi-heart</v-icon>
+                      </v-btn>
+                    </v-fab-transition>
+
+
+
+
+
+
               </v-card>
             </v-row>
           </v-container>
-          </v-hover>
+          
         </template>
       </v-layout>
 
@@ -95,18 +111,13 @@
 </template>
 
 <script>
-import EditPost from '../components/EditPost.vue'
-import DeletePost from '../components/DeletePost.vue'
+
 import PostService from "../services/PostService";
 export default {
-  components: { EditPost, DeletePost,},
+
   name: "Post",
 
-  props: {
-    post: {
-      type: Object,
-    },
-  },
+
   data: function() {
     return {
       messageRetour: null,
@@ -117,10 +128,24 @@ export default {
       posts() {
       return this.$store.getters.posts;
     },
+      post() {
+      return this.$store.getters.post;
+    },
+    isLoggedIn() {
+      if (this.$store.state.isLoggedIn) {
+          return "success";
+      } else {
+          return "";
+      }
+    }, 
+
+
   },
 
   beforeMount() {
     this.$store.dispatch("getPosts");
+    let id = this.$route.params.id;
+    this.$store.dispatch("getPostById", id);
   },
 
   methods: {
@@ -135,8 +160,6 @@ export default {
     getOnePost(id) {
       this.$router.push(`post/${id}`);
     },
-
-
   },
 };
 </script>

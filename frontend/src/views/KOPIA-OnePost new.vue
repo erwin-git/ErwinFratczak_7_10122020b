@@ -1,21 +1,21 @@
 <template>
-    <v-container >
+    <v-container>
       <v-row justify="space-around">
         <v-hover v-slot:default="{ hover }">
-        <v-card width="800" elevation="24" class="mb-16">
+        <v-card width="400" elevation="24">
           <v-img
-            height="500px"
+            height="200px"
             :src="post.fileUrl"
             :aspect-ratio="16/9"
-            lazy-src="https://picsum.photos/510/300?random"
           >
           <v-expand-transition>
             <div
               v-if="hover"
               class="d-flex transition-fast-in-fast-out primary darken-2 v-card--reveal display-3 white--text"
-              style="bottom: 87%; top: 0%;"
+              style="height: 100%;"
               
             >
+              Like it ?
             </div>
           </v-expand-transition>
 
@@ -37,15 +37,7 @@
               <v-spacer></v-spacer>
 
               <v-menu bottom left>
-                <template 
-                v-if="
-              $store.state.user.id === post.idUser ||
-              $store.state.user.admin === true
-          "
-
-
-                v-slot:activator="{ on, attrs }"
-                >
+                <template v-slot:activator="{ on, attrs }">
                   <v-btn dark icon v-bind="attrs" v-on="on" @click="getOnePost(post.id)">
                     <v-icon>mdi-dots-vertical</v-icon>
                   </v-btn>
@@ -62,19 +54,17 @@
           <v-card-text style="position: relative">
             <v-fab-transition>
               <v-btn
-                color="transparent"
                 top
                 fab
                 absolute
                 x-large
                 class="ml-5 mb-0"
-                
               >
               <v-avatar size="100" class=" elevation-15">
-                
-                <v-img v-if="post.User.imageURL" :src="post.User.imageURL"></v-img>
-                <v-img v-else src="../assets/icon.png"></v-img>
-
+                <img
+                  alt="user"
+                  :src="post.User.imageURL"
+                >
               </v-avatar>
               </v-btn>
               </v-fab-transition>
@@ -85,19 +75,33 @@
                 </v-layout>
               
               
-
-              <AddComment />
-
               <v-fab-transition>
-                <v-btn class="mr-13"
-                  :color="isLiked"
+                <v-btn 
+                  color="success"
                   dark
                   absolute
                   top
                   right
                   fab
                   small
-                  @click="likePost(post.id)"
+                  v-if="hover"
+                >
+                  <v-icon>mdi-message</v-icon>
+                </v-btn>
+              </v-fab-transition>
+              
+
+              <v-fab-transition>
+                <v-btn class="mr-13"
+                  color="error"
+                  dark
+                  absolute
+                  top
+                  right
+                  fab
+                  small
+                  v-if="hover"
+                  
                 >
                   <v-icon>mdi-heart</v-icon>
                 </v-btn>
@@ -114,10 +118,10 @@
           <v-card-text>
             <div class="font-weight-bold ml-8 mb-2">
               
-                <p class="text-center">
-                  <v-icon class="mr-5 mt-5">mdi-format-quote-open-outline</v-icon>
-                    {{ post.content }}
-                  <v-icon class="ml-5 mb-5">mdi-format-quote-close-outline</v-icon>
+                <p class="text-justify">
+                  <v-icon>mdi-format-quote-open-outline</v-icon>
+                    Today
+                  <v-icon>mdi-format-quote-close-outline</v-icon>
                 </p> 
               
             </div>
@@ -126,6 +130,11 @@
           <v-card-text>
             <div class="caption text-right mr-5" ><v-icon class="mr-3 ml-10">mdi-calendar</v-icon>{{ post.createdAt | moment("calendar")}}</div>
           </v-card-text>
+
+
+
+
+
 
           <template>
             <v-card flat>
@@ -154,7 +163,7 @@
                   :value="'tab-' + 1"
                 >
                   <v-card flat>
-                    <v-card-text ><Likes /></v-card-text>
+                    <v-card-text>2123</v-card-text>
                   </v-card>
                 </v-tab-item>
               </v-tabs-items>
@@ -186,15 +195,14 @@
 import EditPost from '../components/EditPost.vue'
 import DeletePost from '../components/DeletePost.vue'
 import Comments from '../components/Comments.vue'
-import AddComment from './AddComment.vue'
-import Likes from '../components/Likes.vue'
 
 export default {
-components: { EditPost, DeletePost, Comments, AddComment, Likes },
+components: { EditPost, DeletePost, Comments },
 data() {
     return {
-      tab: null,
-
+      tabs: null,
+      text: 'Lorem'
+      
     }
   },
   computed: {
@@ -205,7 +213,7 @@ data() {
       const userId = this.$store.state.user.id;
       let userLike = this.post.likes.map((a) => a.idUser);
       if (userLike.includes(userId)) {
-        return "error";
+        return "pink";
       } else {
         return "";
       }
@@ -214,7 +222,7 @@ data() {
       const userId = this.$store.state.user.id;
       let userLike = this.post.comments.map((a) => a.idUser);
       if (userLike.includes(userId)) {
-        return "success";
+        return "green";
       } else {
         return "";
       }

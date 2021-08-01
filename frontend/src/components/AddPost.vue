@@ -37,12 +37,16 @@
         <input
           @change="uploadImage"
           type="file"
-          accept="image/png, image/jpeg,
-          image/bmp, image/gif"
+          accept="image/png, image/jpeg, image/bmp, image/gif"
           ref="file"
           name="image"
-          
+          class="input-group--focused"
         />
+        <div class="text-right">
+          <v-btn fab color="error" x-small @click="deleteImage()"> 
+            <v-icon>delete</v-icon>
+          </v-btn>
+        </div>
 
 
 
@@ -51,7 +55,6 @@
       label="Content"
       v-model="content"
       :rules="[rules.required]"
-      :value="value"
       ></v-textarea>
     </v-card-text>
 
@@ -61,7 +64,7 @@
     <v-card-actions>
       <v-btn
         text
-        @click="$refs.form.reset()"
+        @click="$refs.form.reset(), deleteImage()"
       >
         Clear
       </v-btn>
@@ -69,9 +72,8 @@
       <v-btn
         v-on:click.prevent="onSubmit"
         :disabled="!form"
-        :loading="isLoading"
         class="white--text"
-        color="deep-purple accent-4"
+        color="primary"
         depressed
         @click="alert = true, $refs.form.reset()"
         
@@ -114,6 +116,11 @@ export default {
     uploadImage() {
       const file = this.$refs.file.files[0];
       this.file = file;
+    },
+    deleteImage() {
+      this.file = null;
+      this.$refs.file.value = ''
+      console.log(this.file);
     },
     onSubmit() {
       const formData = new FormData();

@@ -1,7 +1,6 @@
 <template>
   
     <v-container>
-      <Login />
         <v-row justify="space-around" >
       <div class="home" >
         <v-img  width="600" 
@@ -17,10 +16,9 @@
 
 
 <script>
-import Login from '../components/Login.vue'
 
 export default {
-  components: { Login },
+
   name: 'HOME',
 
 

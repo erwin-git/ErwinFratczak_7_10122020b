@@ -25,10 +25,10 @@ export default {
   },
 
   commentPost(id, data) {
-    return Api().post("post/" + id + "/comments", data);
+    return Api().post("post/" + id + "/comment", data);
   },
 
   deleteComment(id) {
-    return Api().delete("post/comments/" + id);
+    return Api().delete("post/comment/" + id);
   },
 };

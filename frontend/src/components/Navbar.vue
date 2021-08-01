@@ -15,9 +15,17 @@
               </v-btn>
             </template>
 
-            <v-list>
-                
-                <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
+
+            <v-list v-if="$store.state.isLoggedIn">
+                <v-list-item router to="/" >
+                    <v-list-item-action>
+                        <v-icon left >home</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title >Home</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item v-for="link in links" :key="link.text" router :to="link.route" >
                     <v-list-item-action>
                         <v-icon left >{{ link.icon }}</v-icon>
                     </v-list-item-action>
@@ -25,29 +33,98 @@
                         <v-list-item-title >{{ link.text }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <Logout />
+                <v-list-item router to="/about">
+                    <v-list-item-action>
+                        <v-icon left >info</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title >About</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
             </v-list>
-          </v-menu>
+            <v-list v-else>
+                <v-list-item router to="/" >
+                    <v-list-item-action>
+                        <v-icon left >home</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title >Home</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item router to="/about">
+                    <v-list-item-action>
+                        <v-icon left >info</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title >About</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+        </v-menu>
 
         </v-app-bar>
 
 
-        <v-navigation-drawer v-model="drawer" app class="primary">
-            <v-layout column align-center>
-                <v-flex class="mt-5">
-                    <v-avatar size="100">
-                        <img class="text-lg-center" :src="profil.imageURL">
+        <v-navigation-drawer v-model="drawer" app class="primary" width="320">
+            <v-layout column align-center v-if="$store.state.isLoggedIn">
+                <v-flex class="mt-15">
+
+                    <v-badge
+                        avatar
+                        bordered
+                        overlap
+                        :color="isLoggedIn"
+                        
+                    >
+
+                    <v-avatar size="200" class=" elevation-10">
+                        <v-img v-if="profil.imageURL" :src="profil.imageURL" ></v-img>
+                        <v-img v-else src="../assets/icon.png" ></v-img>
                     </v-avatar>
+
+                    </v-badge>
                 
                 </v-flex>
-                <span class="white--text body-2 mt-5">{{profil.firstName}} {{profil.lastName}}</span>
+                <span class="white--text text-h6 mt-5">{{profil.firstName}} {{profil.lastName}}</span>
             </v-layout>
-            <v-list class="mt-5">
+            <v-layout column align-center v-else>
+                <v-flex class="mt-15">
+
+                    <v-badge
+                        avatar
+                        overlap
+                        :color="isLoggedIn"
+                    >
+
+                    <v-avatar size="200">
+                        <v-img v-if="profil.imageURL" :src="profil.imageURL"></v-img>
+                        <v-img v-else src="../assets/icon-above-font.png"></v-img>
+                    </v-avatar>
+
+                    </v-badge>
+                
+                </v-flex>
+                <span class="white--text text-h6 mt-5">Log in to Groupomania</span>
+            </v-layout>
+            
+            <v-list class="mt-5" v-if="$store.state.isLoggedIn">
                 <Profil />
                 <EditProfil />
                 <DeleteProfil />
                 <AddPost />
+                <Logout />
             </v-list>
+
+            <v-layout  align-center v-else>
+                <v-spacer></v-spacer>
+                    <Login />
+                <v-spacer></v-spacer>
+                    <Signup />
+                <v-spacer></v-spacer>
+            </v-layout>
+
+
+
         </v-navigation-drawer>
 
     </nav>
@@ -60,24 +137,31 @@ import EditProfil from './EditProfil.vue'
 import DeleteProfil from './DeleteProfil.vue'
 import AddPost from './AddPost.vue'
 import Logout from './Logout.vue'
+import Login from './Login.vue'
+import Signup from './Signup.vue'
 
 export default {
-    components: { Profil,  EditProfil, DeleteProfil, AddPost, Logout },
+    components: { Profil,  EditProfil, DeleteProfil, AddPost, Logout, Login, Signup },
     data: () => {
         return {
             drawer: false,
             links: [
-                {icon: 'home', text: 'Home', route: '/'},
                 {icon: 'dashboard', text: 'Posts', route: '/post'},
-                {icon: 'group', text: 'Users', route: '/users'},
-                {icon: 'info', text: 'About', route: '/about'},
+                {icon: 'mdi-account-group', text: 'Users', route: '/auth'},
             ]
         }
     },
     computed: {
         profil() {
             return this.$store.getters.user;
-        }    
+        },
+        isLoggedIn() {
+        if (this.$store.state.isLoggedIn) {
+            return "success";
+        } else {
+            return "";
+        }
+    },    
     },
     beforeMount() {
         this.$store.dispatch("getUserById");

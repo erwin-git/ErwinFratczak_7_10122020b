@@ -11,7 +11,7 @@ router.post('/signup', authUser.firstNameVerif, authUser.lastNameVerif, authUser
 router.post('/login', authUser.valid, limiter, userCtrl.login);
 router.get('/:id', auth, userCtrl.getOneUser);
 router.get('/', auth, userCtrl.getAllUsers);
-router.put('/edit/:id', auth, multer, userCtrl.editUser)
+router.put('/edit/:id', authUser.firstNameVerif, authUser.lastNameVerif, auth, multer, userCtrl.editUser)
 router.delete('/:id', auth, userCtrl.deleteUser);
 
 

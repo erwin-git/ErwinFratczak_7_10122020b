@@ -23,7 +23,7 @@ const routes = [
     component: Post
   },
   {
-    path: '/users',
+    path: '/auth/',
     name: 'Users',
     component: Users
   },

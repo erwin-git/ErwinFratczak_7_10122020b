@@ -281,7 +281,7 @@ export default new Vuex.Store({
     commentPost({ commit }, payload) {
       axios
         .post(
-          `http://localhost:3000/api/post/${payload.id}/comments`,
+          `http://localhost:3000/api/post/${payload.id}/comment`,
           payload.data,
           { headers: { Authorization: this.state.token } }
         )

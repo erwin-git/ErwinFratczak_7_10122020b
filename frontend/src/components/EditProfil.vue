@@ -31,21 +31,23 @@
       <v-text-field
         ref="firstName"
         v-model="firstName"
-        :rules="FirstNameRules"
-        :error-messages="errorMessages"
+        :rules="[rules.required, rules.length(3), rules.name]"
+        counter="30"
         label="First Name"
         :placeholder="user.firstName"
-        
+        input="user.firstName"
+        clearable
         hint="Le FirstName doit avoir 3 caractères min et 30 max"
       ></v-text-field>
       <v-text-field
         ref="lastName"
         v-model="lastName"
-        :rules="LastNameRules"
-        :error-messages="errorMessages"
+        :rules="[rules.required, rules.length(3), rules.name]"
+        counter="30"
         label="Last Name"
         :placeholder="user.lastName"
         hint="Le FirstName doit avoir 3 caractères min et 30 max"
+        clearable
       ></v-text-field>
 
       
@@ -60,17 +62,24 @@
         ref="file"
         name="image"
         class="input-group--focused"
+
       >
+      <div class="text-right">
+        <v-btn fab color="error" x-small @click="deleteImage()"> 
+          <v-icon>delete</v-icon>
+        </v-btn>
+      </div>
+      
 
 
 
       <v-textarea
         counter="400"
         label="Biography"
-        :value="value"
         v-model="biography"
-        :rules="BiographyRules"
+        :rules="[rules.required, rules.length(100)]"
         :placeholder="user.biography"
+        clearable
       ></v-textarea>
     </v-card-text>
 
@@ -82,16 +91,16 @@
     <v-card-actions>
       <v-btn
         text
-        @click="$refs.form.reset()"
+        @click="$refs.form.reset(), deleteImage()"
+        
       >
         Clear
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn
         
-        :loading="isLoading"
         class="white--text"
-        color="deep-purple accent-4"
+        color="primary"
         depressed
         :disabled="!form" 
         v-on:click.prevent="onSubmit"
@@ -122,16 +131,11 @@ export default {
       file: "",
       messageRetour: "",
       errorMessage: "",
-      FirstNameRules: [
-        (v) => v.length <= 30 || "Max 30 caractères",
-        
-      ],
-      LastNameRules: [
-        (v) => v.length <= 30 || "Max 30 caractères",
-        
-      ],
-      BiographyRules: [(v) => v.length <= 400 || "Max 400 caractères"],
-
+      rules: {
+        name: v => !!(v || '').match(/^[a-zA-Z]{3,30}$/) || 'Please enter a valid Name',
+        length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
+        required: v => !!v || 'This field is required',
+      },
     };
   },
   computed: {
@@ -152,6 +156,11 @@ export default {
       this.file = file;
       console.log(this.file);
     },
+    deleteImage() {
+      this.file = null;
+      this.$refs.file.value = ''
+      console.log(this.file);
+    },
     onSubmit() {
       const formData = new FormData();
       formData.append("firstName", this.firstName);
@@ -168,14 +177,13 @@ export default {
       let router = this.$router;
       setTimeout(function() {
         router.push("/post");
-      }, 3500);
+      }, 2500);
       setTimeout(() => {
           this.alert=false;
           this.dialog=false;
 
-        }, 3000)
+        }, 2000)
     },
-  
-  },
+    },
 };
 </script>

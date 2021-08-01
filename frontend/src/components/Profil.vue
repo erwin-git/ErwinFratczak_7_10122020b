@@ -26,24 +26,32 @@
 
   >
     <v-img
-      :src="profil.imageURL"
-      height="300px"
-      dark
-    >
-      <v-row class="fill-height">
-        <v-card-title>
-        </v-card-title>
-        <v-card-title class="white--text pl-12 pt-12 mt-16">
-          <div class="text-h4 pl-12 pt-12 mt-16">
-            <span>{{profil.firstName}} {{profil.lastName}}</span>
-          </div>
-        </v-card-title>
-      </v-row>
-    </v-img>
+    max-height="300px"
+    dark 
+    v-if="profil.imageURL" :src="profil.imageURL"></v-img>
+    <v-img 
+    max-height="300px"
+    dark 
+    v-else src="../assets/icon.png"></v-img>
 
     <v-list two-line>
       
+    <v-list-item>
+        <v-list-item-icon>
+          <v-icon color="primary">
+            person
+          </v-icon>
+        </v-list-item-icon>
 
+        <v-list-item-content>
+          <v-list-item-title class="mb-3">Name</v-list-item-title>
+          <v-list-item-subtitle>{{profil.firstName}} {{profil.lastName}}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+
+
+      <v-divider inset></v-divider>
 
 
       
@@ -74,7 +82,7 @@
 
         <v-list-item-content>
           <v-list-item-title class="mb-3">Biography</v-list-item-title>
-          <v-list-item-text class="text-justify body-2">{{profil.biography}}</v-list-item-text>
+          <p class="text-justify body-2">{{profil.biography}}</p>
         </v-list-item-content>
       </v-list-item>
     </v-list>

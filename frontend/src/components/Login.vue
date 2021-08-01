@@ -5,12 +5,15 @@
       v-model="dialog"
       transition="dialog-top-transition"
       max-width="600"
-      overlay-opacity="0.50"
+      overlay-opacity=".8"
       overlay-color="primary"
-      
-      
     >
 
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn fab v-bind="attrs" v-on="on" class="mt-10" x-large> 
+          <v-icon>login</v-icon>
+        </v-btn>
+      </template>
 
       <v-card >
         <v-app-bar color="primary" flat>
@@ -46,9 +49,7 @@
   </v-form>
 <v-divider></v-divider>
     <v-card-actions>
-      
-      <Signup />
-      <v-spacer></v-spacer>
+
       <v-btn
         text
         @click="$refs.form.reset()"
@@ -80,13 +81,13 @@
 
 
 	<script>
-import Signup from './Signup.vue'
+
 import Auth from "../services/Auth.js";
 export default {
-  components: { Signup },
+
   data() {
     return {
-        dialog: true,
+        dialog: false,
         alert: false,
         message: null,
         errorMessage: null,

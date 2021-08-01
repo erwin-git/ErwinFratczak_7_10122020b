@@ -1,7 +1,6 @@
 
 <template>
   <div>
-    <v-alert :value="alert" type="info" text dense v-html="message || errorMessage"></v-alert>
     <v-dialog
       v-model="dialog"
       width="400"
@@ -10,10 +9,10 @@
       <template v-slot:activator="{ on, attrs }">
         <v-list-item v-bind="attrs" v-on="on">
             <v-list-item-action>
-                <v-icon>logout</v-icon>
+                <v-icon left class="white--text">logout</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-                <v-list-item-title>Logout</v-list-item-title>
+                <v-list-item-title class="white--text">Logout</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
       </template>
@@ -34,20 +33,21 @@
         <v-card-actions>
           <v-btn
             text
-            @click="agreement = false, dialog = false"
+            @click="agreement = true, dialog = false"
           >
-            YES
+            NO
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
             class="white--text"
             color="primary"
             v-on:click.prevent="logOut"
-            @click="agreement = true, dialog = false"
+            @click="agreement = false, dialog = false"
 
           >
-            NO
+            YES
           </v-btn>
+          
         </v-card-actions>
     
     </v-card>
@@ -68,8 +68,9 @@ export default {
     }
   },
     methods: {
-    logOut: function() {
-      this.$store.dispatch("logOut");
+    logOut() {
+      this.$store.dispatch("setToken", null);
+      this.$store.dispatch("setUser", null);
     },
   },
   
