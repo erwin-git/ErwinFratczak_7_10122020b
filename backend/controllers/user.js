@@ -42,7 +42,7 @@ exports.login = async (req, res) => {
   try {
     const user = await db.User.findOne({
       where: { email: req.body.email },
-    }); // on vérifie que l'adresse mail figure bien dan la bdd
+    }); 
     if (user === null) {
       return res.status(403).send({ error: "Connexion échouée" });
     } else {
@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
       } else {
         const tokenObject = await token.issueJWT(user);
         res.status(200).send({
-          // on renvoie le user et le token
+         
           user: user,
           token: tokenObject.token,
           sub: tokenObject.sub,
@@ -68,7 +68,7 @@ exports.login = async (req, res) => {
 
 
 exports.getOneUser = async (req, res) => {
-  // on trouve l'utilisateur et on renvoie l'objet user
+  
   try {
     const user = await db.User.findOne({
       where: { id: req.params.id },
@@ -92,7 +92,7 @@ exports.editUser = async (req, res) => {
   try {
     const userId = token.getUserId(req);
     let newPhoto;
-    let user = await db.User.findOne({ where: { id: id } }); // on trouve le user
+    let user = await db.User.findOne({ where: { id: id } }); 
     if (userId === user.id) {
       if (req.file && user.imageURL) {
         newPhoto = `${req.protocol}://${req.get("host")}/images/${

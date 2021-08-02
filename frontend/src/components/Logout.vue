@@ -68,9 +68,14 @@ export default {
     }
   },
     methods: {
+    getBackHome() {
+      this.$router.push("/");
+    },
     logOut() {
-      this.$store.dispatch("setToken", null);
-      this.$store.dispatch("setUser", null);
+      this.$store.dispatch("logOut");
+      setTimeout(() => {
+        this.getBackHome();
+      }, 1000);
     },
   },
   

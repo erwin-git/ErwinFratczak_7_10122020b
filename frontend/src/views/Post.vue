@@ -160,6 +160,14 @@ export default {
     getOnePost(id) {
       this.$router.push(`post/${id}`);
     },
+        likePost(id) {
+      const data = 1;
+      this.$store.dispatch("likePost", {
+        id: id,
+        data: data,
+      });
+      this.$store.dispatch("getPosts");
+    },
   },
 };
 </script>

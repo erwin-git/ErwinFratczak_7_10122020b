@@ -17,6 +17,7 @@
               
             >
             </div>
+            
           </v-expand-transition>
 
             <v-app-bar
@@ -46,7 +47,7 @@
 
                 v-slot:activator="{ on, attrs }"
                 >
-                  <v-btn dark icon v-bind="attrs" v-on="on" @click="getOnePost(post.id)">
+                  <v-btn dark icon v-bind="attrs" v-on="on">
                     <v-icon>mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
@@ -112,12 +113,12 @@
           </v-card-title>
 
           <v-card-text>
-            <div class="font-weight-bold ml-8 mb-2">
+            <div class="font-weight-bold ml-8 mr-8">
               
-                <p class="text-center">
-                  <v-icon class="mr-5 mt-5">mdi-format-quote-open-outline</v-icon>
+                <p class="text-center" style="line-height: 300%;">
+                  <v-icon class="mr-5 mb-5">mdi-format-quote-open-outline</v-icon>
                     {{ post.content }}
-                  <v-icon class="ml-5 mb-5">mdi-format-quote-close-outline</v-icon>
+                  <v-icon class="ml-5 mt-5">mdi-format-quote-close-outline</v-icon>
                 </p> 
               
             </div>
@@ -224,6 +225,7 @@ data() {
   beforeMount() {
     let id = this.$route.params.id;
     this.$store.dispatch("getPostById", id);
+    
   },
   methods: {
       getBackToPosts() {

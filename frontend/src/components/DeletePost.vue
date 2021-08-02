@@ -1,5 +1,5 @@
 
-<template v-slot:activator="{ on, attrs }">
+<template>
   <div>
     <v-dialog
       v-model="dialog"
@@ -34,8 +34,6 @@
           <v-btn
             text
             @click="agreement = true, dialog = false, deletePost(post.id)"
-            v-bind="attrs"
-            v-on="on"
             
           >
             YES

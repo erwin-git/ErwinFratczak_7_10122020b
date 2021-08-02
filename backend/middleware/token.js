@@ -2,7 +2,7 @@ const JWT = require("jsonwebtoken");
 const config = require("../config/config");
 
 function issueJWT(user) {
-  // on génére le token
+  
   const id = user.id;
   const expiresIn = "24H";
   const payload = {
@@ -16,11 +16,11 @@ function issueJWT(user) {
   };
 }
 function getUserId(req) {
-  // on vérifie le userId du token
-  const token = req.headers.authorization.split(" ")[1]; // on récupère le token de la requête entrante
-  const decodedToken = JWT.verify(token, "secret"); // on le vérifie
+  
+  const token = req.headers.authorization.split(" ")[1]; 
+  const decodedToken = JWT.verify(token, "secret"); 
   const userId = decodedToken.sub;
-  return userId; // on récupère l'id du token
+  return userId; 
 }
 
 module.exports.issueJWT = issueJWT;

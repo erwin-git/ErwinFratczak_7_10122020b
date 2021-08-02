@@ -46,9 +46,11 @@
 
 
         <v-textarea
-        counter
+        counter=400
         label="Content"
         v-model="data.content"
+        :rules="[rules.required, rules.length(100)]"
+        clearable
         ></v-textarea>
 
       </v-form>
@@ -74,7 +76,7 @@
       <v-btn
         :disabled="!form"
         class="white--text"
-        color="deep-purple accent-4"
+        color="primary"
         depressed
         @click="onSubmitComment(post.id)"
       >
@@ -99,6 +101,10 @@ export default {
         dialog: false,
         form: true,
         data: {content: "",},
+        rules: {
+        length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
+        required: v => !!v || 'This field is required',
+      },
     }
   },
   computed: {
@@ -134,7 +140,7 @@ export default {
       setTimeout(() => {
         this.alert=false;
         this.dialog=false;
-      }, 3000)
+      }, 1000)
     },
   },
 }

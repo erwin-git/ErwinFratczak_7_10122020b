@@ -67,6 +67,12 @@
 
         <v-navigation-drawer v-model="drawer" app class="primary" width="320">
             <v-layout column align-center v-if="$store.state.isLoggedIn">
+                                                <div >
+            <v-img
+                max-width="150px"
+                src="../assets/icon-left-font-monochrome-white.png"       
+            />
+            </div>
                 <v-flex class="mt-15">
 
                     <v-badge
@@ -123,6 +129,7 @@
                 <v-spacer></v-spacer>
             </v-layout>
 
+            <v-spacer></v-spacer>
 
 
         </v-navigation-drawer>

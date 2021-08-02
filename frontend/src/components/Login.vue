@@ -61,7 +61,7 @@
         :disabled="!form"
         :loading="isLoading"
         class="white--text"
-        color="deep-purple accent-4"
+        color="primary"
         depressed
         v-on:click.prevent="login"
         @click="alert = true, $refs.form.reset()"

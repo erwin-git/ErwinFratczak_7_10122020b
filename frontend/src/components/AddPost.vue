@@ -51,10 +51,11 @@
 
 
       <v-textarea
-      counter
+      counter="400"
       label="Content"
       v-model="content"
-      :rules="[rules.required]"
+      :rules="[rules.required, rules.length(100)]"
+      clearable
       ></v-textarea>
     </v-card-text>
 
@@ -100,7 +101,8 @@ export default {
       content: "",
       file: "",
       rules: {
-        required: (value) => !!value || "Required.",
+        length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
+        required: v => !!v || 'This field is required',
       },
     };
   },

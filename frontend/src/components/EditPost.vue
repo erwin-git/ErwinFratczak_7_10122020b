@@ -38,13 +38,21 @@
           image/bmp, image/gif"
           ref="file"
           name="image"
+          class="input-group--focused"
         />
+        <div class="text-right">
+          <v-btn fab color="error" x-small @click="deleteImage()"> 
+            <v-icon>delete</v-icon>
+          </v-btn>
+        </div>
 
       <v-textarea
-      counter
+      counter="400"
       label="Content"
       v-model="content"
+      :rules="[rules.required, rules.length(100)]"
       :placeholder="post.content"
+      clearable
       ></v-textarea>
 
     </v-card-text>
@@ -56,7 +64,7 @@
     <v-card-actions>
       <v-btn
         text
-        @click="$refs.form.reset()"
+        @click="$refs.form.reset(), deleteImage()"
       >
         Clear
       </v-btn>
@@ -65,7 +73,7 @@
         v-on:click.prevent="onSubmit"
         :disabled="!form"
         class="white--text"
-        color="deep-purple accent-4"
+        color="primary"
         depressed
         @click="alert = true, $refs.form.reset()"
         
@@ -93,6 +101,10 @@ export default {
       form: true,
       content: "",
       file: "",
+      rules: {
+        length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
+        required: v => !!v || 'This field is required',
+      },
     };
   },
   computed: {
@@ -109,6 +121,11 @@ export default {
     uploadImage() {
       const file = this.$refs.file.files[0];
       this.file = file;
+    },
+    deleteImage() {
+      this.file = null;
+      this.$refs.file.value = ''
+      console.log(this.file);
     },
     onSubmit() {
       let id = this.$route.params.id;
