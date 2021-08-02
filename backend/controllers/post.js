@@ -83,7 +83,6 @@ exports.getAllPosts = async (req, res) => {
 exports.getOnePost = async (req, res) => {
   try {
     const post = await db.Post.findOne({
-      // on récupère le post avec l'id fourni en incluant les tables et attributs nécessaires
       where: { id: req.params.id },
       include: [
         {
@@ -167,10 +166,10 @@ exports.deletePost = async (req, res) => {
           db.Post.destroy({ where: { id: post.id } });
           res.status(200).json({ message: "Post supprimé" });
         });
-      } /*else {
+      } else {
         db.Post.destroy({ where: { id: post.id } }, { truncate: true });
         res.status(200).json({ message: "Post supprimé" });
-      }*/
+      }
     } else {
       res.status(400).json({ message: "Vous n'avez pas les droits requis" });
     }
@@ -189,7 +188,7 @@ exports.likePost = async (req, res, next) => {
     if (user) {
       await db.like.destroy(
         { where: { idUser: userId, idPost: postId } },
-        //{ truncate: true, restartIdentity: true }
+        { truncate: true, restartIdentity: true }
       );
       res.status(200).send({ messageRetour: "vou n'aimez plus ce post" });
     } else {
@@ -228,7 +227,7 @@ exports.deleteComment = async (req, res) => {
     const comment = await db.comment.findOne({ where: { id: req.params.id } });
 
     if (userId === comment.idUser /*|| checkAdmin.admin === true*/) {
-      db.comment.destroy({ where: { id: req.params.id } }, /*{ truncate: true }*/);
+      db.comment.destroy({ where: { id: req.params.id } }, { truncate: true });
       res.status(200).json({ message: "commentaire supprimé" });
     } else {
       res.status(400).json({ message: "Vous n'avez pas les droits requis" });

@@ -1,7 +1,7 @@
 <template>
   <v-card
     class="mx-auto"
-    max-width="900"
+    max-width="1200"
   >
     <v-toolbar
       color="primary"
@@ -48,22 +48,11 @@
 
 
 
-        <v-spacer></v-spacer>
+       
 
-                
-        <template
-                
-        >
-          <v-btn fab color="error" x-small @click="deleteAccount(user.id)"> 
-            <v-icon>delete</v-icon>
-          </v-btn>
-        </template>
-
-
-
-
-        
-
+        <v-list-item-content>
+          {{ user.biography }}
+        </v-list-item-content>
 
 
       </v-list-item>
@@ -95,28 +84,6 @@ export default {
     this.$store.dispatch("getUsers");
   },
 
-  methods: {
-    getBackHome() {
-      this.$router.push("/");
-    },
-    logOut() {
-      this.$store.dispatch("setToken", null);
-      this.$store.dispatch("setUser", null);
-    },
-
-    deleteAccount(id) {     
-      if(this.$store.state.user.admin === true) {
-        this.$store.dispatch("deleteAccount", id);
-      }
-      else {
-        this.$store.dispatch("deleteAccount", id);
-        this.$store.dispatch("setToken", null);
-        this.$store.dispatch("setUser", null);
-        this.getBackHome();
-      }
-    },
-   
-  },
   
 };
 </script>

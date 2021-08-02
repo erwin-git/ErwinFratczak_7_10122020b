@@ -81,7 +81,7 @@ exports.getOneUser = async (req, res) => {
 
 exports.getAllUsers = (req, res, next) => {
   User.findAll({
-    attributes: ["imageURL", "firstName", "lastName",  "email"],
+    attributes: ["imageURL", "firstName", "lastName",  "email", "biography"],
   })
       .then(users => res.status(200).json(users))
       .catch(error => res.status(400).json({ error }));
@@ -136,7 +136,7 @@ exports.editUser = async (req, res) => {
     return res.status(500).send({ error: "Erreur serveur" });
   }
 };
-// add token!
+
 exports.deleteUser = async (req, res) => {
   const id = req.params.id;
   try {
