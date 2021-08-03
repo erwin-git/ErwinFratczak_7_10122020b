@@ -1,77 +1,120 @@
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="1200"
-  >
-    <v-toolbar
-      color="primary"
-      dark
-    >
-      <v-app-bar-nav-icon><v-icon>mdi-account-group</v-icon></v-app-bar-nav-icon>
-      
+  <v-container>
+            <v-row justify="space-around" >
 
-      <v-toolbar-title>Users</v-toolbar-title>
+  <v-card 
+    max-width="400"
+    class="mx-auto"
+    v-for="user of users"
+    :key="user.id"
+    :user="user"
+  >
+      <v-app-bar
+      absolute
+      flat
+      color="rgba(0, 0, 0, 0)"
+      >
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </v-toolbar>
+        <v-menu bottom left>
+          <template 
+          
 
 
-    <v-list v-if="$store.state.users">
+          v-slot:activator="{ on, attrs }"
+          >
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
 
-      <v-list-item
-        v-for="user of users"
-          :key="user.id"
-          :user="user"
-        
-      >
+          <v-list v-if="
+          $store.state.user.id === user.id ||
+          $store.state.user.admin === true
+          ">
+            <DeleteUsers />
+          </v-list >
 
-          <v-list-item-avatar >
-            <v-img v-if="user.imageURL" :src="user.imageURL"></v-img>
-            <v-img v-else src="../assets/icon.png"></v-img>
-          </v-list-item-avatar>
+
+        </v-menu>
+    </v-app-bar>
+
+    <v-img
+    max-height="300px"
+    dark 
+    v-if="user.imageURL" :src="user.imageURL"></v-img>
+    <v-img 
+    max-height="300px"
+    dark 
+    v-else src="../assets/icon.png"></v-img>
+
+    <v-list two-line>
       
-        
+    <v-list-item>
+        <v-list-item-icon>
+          <v-icon color="primary">
+            person
+          </v-icon>
+        </v-list-item-icon>
 
         <v-list-item-content>
-          <v-list-item-title >{{ user.firstName }} {{ user.lastName }}</v-list-item-title>
+          <v-list-item-title class="mb-3">Name</v-list-item-title>
+          <v-list-item-subtitle>{{user.firstName}} {{user.lastName}}</v-list-item-subtitle>
         </v-list-item-content>
-      
-
-
-        <v-list-item-content>
-          <v-list-item-title >{{ user.email }}</v-list-item-title>
-        </v-list-item-content>
-
-      
-
-        <v-list-item-content class="mr-15">
-            {{ user.biography }}
-        </v-list-item-content>
-
-
-
- 
-          <v-btn  color="error"  @click="deleteAccount(user.id)"> 
-            <v-icon>delete</v-icon>
-          </v-btn>
-
       </v-list-item>
+
+
+
+      <v-divider inset></v-divider>
+
+
       
+
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon color="primary">
+            mdi-email
+          </v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title class="mb-3">e-Mail</v-list-item-title>
+          <v-list-item-subtitle>{{user.email}}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+
+
+      <v-divider inset></v-divider>
+
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon color="primary">
+            info
+          </v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title class="mb-3">Biography</v-list-item-title>
+          <p class="text-justify body-2">{{user.biography}}</p>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
-    
-    
   </v-card>
+            </v-row  >
+            </v-container>
 </template>
 
 
 <script>
+import DeleteUsers from '../components/DeleteUsers.vue'
+import Auth from "../services/Auth";
 export default {
-
+components: { DeleteUsers },
   name: "Users",
+
+
 
   data() {
     return {      
@@ -88,15 +131,18 @@ export default {
     this.$store.dispatch("getUserById", id);
   },
   methods: {
-
-    deleteAccount(id) {
-      this.$store.dispatch("deleteAccount", id);
-      this.$store.dispatch("logOut");
-      localStorage.clear();
-      window.location.reload()
-      this.$router.push("/");
+    async getAll() {
+      try {
+      const response = await Auth.getUsers();
+        this.users = response.data;
+      } catch (error) {
+        this.errorMessage = error.response.data.error;
+      }
     },
-  },
+    getOneUser(id) {
+      this.$router.push(`auth/${id}`);
+    },
 
+  },
 };
 </script>

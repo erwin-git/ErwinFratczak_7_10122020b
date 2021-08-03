@@ -2,7 +2,7 @@ const emailValidator = require("email-validator");
 const passwordValidator = require("password-validator");
 
 exports.valid = (req, res, next) => {
-  // on vérifie le password et l'email
+  
   const passwordSchema = new passwordValidator();
   passwordSchema
     .is()
@@ -36,8 +36,8 @@ exports.valid = (req, res, next) => {
 };
 
 exports.firstNameVerif = (req, res, next) => {
-  // on vérifie le pseudo
-  const regex = /^[a-zA-Z]{3,30}$/; // Lettres, espaces et doit être entre 4 et 30 caractères
+  
+  const regex = /^[a-zA-Z]{3,30}$/; 
   const firstName = req.body.firstName;
   if (regex.test(firstName) === true) {
     next();
@@ -50,8 +50,8 @@ exports.firstNameVerif = (req, res, next) => {
 };
 
 exports.lastNameVerif = (req, res, next) => {
-  // on vérifie le pseudo
-  const regex = /^[a-zA-Z]{3,30}$/; // Lettres, espaces et doit être entre 4 et 30 caractères
+  
+  const regex = /^[a-zA-Z]{3,30}$/; 
   const lastName = req.body.lastName;
   if (regex.test(lastName) === true) {
     next();

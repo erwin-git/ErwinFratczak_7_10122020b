@@ -30,9 +30,7 @@
         <v-list-item-icon>
         <template
           v-if="
-            $store.state.user.id === like.idUser ||
-              $store.state.user.admin === true
-          "
+            $store.state.user.id === like.idUser "
         >
           <v-btn fab color="warning" x-small @click="likePost(post.id)"> 
             <v-icon>delete</v-icon>

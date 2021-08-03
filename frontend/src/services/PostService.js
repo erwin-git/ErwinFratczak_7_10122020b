@@ -4,9 +4,6 @@ export default {
   getPosts() {
     return Api().get("post");
   },
-  getHotPosts() {
-    return Api().get("post/hot");
-  },
   getPostById(id) {
     return Api().get("post/" + id);
   },

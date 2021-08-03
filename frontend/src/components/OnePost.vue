@@ -229,9 +229,10 @@ data() {
 
   },
   beforeMount() {
+    this.$store.dispatch("getPosts");
     let id = this.$route.params.id;
     this.$store.dispatch("getPostById", id);
-    
+
   },
   methods: {
       getBackToPosts() {

@@ -128,9 +128,6 @@ export default {
       posts() {
       return this.$store.getters.posts;
     },
-      post() {
-      return this.$store.getters.post;
-    },
     isLoggedIn() {
       if (this.$store.state.isLoggedIn) {
           return "success";

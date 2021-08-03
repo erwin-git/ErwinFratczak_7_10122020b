@@ -157,9 +157,9 @@ exports.editPost = async (req, res) => {
 exports.deletePost = async (req, res) => {
   try {
     const userId = token.getUserId(req);
-    //const checkAdmin = await db.User.findOne({ where: { id: userId } });
+    const checkAdmin = await db.User.findOne({ where: { id: userId } });
     const post = await db.Post.findOne({ where: { id: req.params.id } });
-    if (userId === post.idUser /*|| checkAdmin.admin === true*/) {
+    if (userId === post.idUser || checkAdmin.admin === true) {
       if (post.fileUrl) {
         const filename = post.fileUrl.split("/images")[1];
         fs.unlink(`images/${filename}`, () => {
@@ -223,10 +223,10 @@ exports.addComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
   try {
     const userId = token.getUserId(req);
-    //const checkAdmin = await db.User.findOne({ where: { id: userId } });
+    const checkAdmin = await db.User.findOne({ where: { id: userId } });
     const comment = await db.comment.findOne({ where: { id: req.params.id } });
 
-    if (userId === comment.idUser /*|| checkAdmin.admin === true*/) {
+    if (userId === comment.idUser || checkAdmin.admin === true) {
       db.comment.destroy({ where: { id: req.params.id } }, { truncate: true });
       res.status(200).json({ message: "commentaire supprimé" });
     } else {
