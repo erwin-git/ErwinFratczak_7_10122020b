@@ -46,27 +46,29 @@
           <v-list-item-title >{{ user.email }}</v-list-item-title>
         </v-list-item-content>
 
+      
 
-
-       
-
-        <v-list-item-content>
-          {{ user.biography }}
+        <v-list-item-content class="mr-15">
+            {{ user.biography }}
         </v-list-item-content>
 
+
+
+ 
+          <v-btn  color="error"  @click="deleteAccount(user.id)"> 
+            <v-icon>delete</v-icon>
+          </v-btn>
 
       </v-list-item>
       
     </v-list>
     
-
     
   </v-card>
 </template>
 
 
 <script>
-
 export default {
 
   name: "Users",
@@ -82,8 +84,19 @@ export default {
   },
   beforeMount() {
     this.$store.dispatch("getUsers");
+    let id = this.$route.params.id;
+    this.$store.dispatch("getUserById", id);
+  },
+  methods: {
+
+    deleteAccount(id) {
+      this.$store.dispatch("deleteAccount", id);
+      this.$store.dispatch("logOut");
+      localStorage.clear();
+      window.location.reload()
+      this.$router.push("/");
+    },
   },
 
-  
 };
 </script>

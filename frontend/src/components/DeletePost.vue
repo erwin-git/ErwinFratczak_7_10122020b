@@ -73,6 +73,7 @@ export default {
   methods: {
     deletePost(id) {
       this.$store.dispatch("deletePost", id);
+      this.$router.push("/post")
     },
   }
 }

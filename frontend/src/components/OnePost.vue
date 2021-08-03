@@ -3,6 +3,7 @@
       <v-row justify="space-around">
         <v-hover v-slot:default="{ hover }">
         <v-card width="800" elevation="24" class="mb-16">
+          
           <v-img
             height="500px"
             :src="post.fileUrl"
@@ -39,10 +40,7 @@
 
               <v-menu bottom left>
                 <template 
-                v-if="
-              $store.state.user.id === post.idUser ||
-              $store.state.user.admin === true
-          "
+                
 
 
                 v-slot:activator="{ on, attrs }"
@@ -52,9 +50,16 @@
                   </v-btn>
                 </template>
 
-                <v-list>
+                <v-list v-if="
+                $store.state.user.id === post.idUser ||
+                $store.state.user.admin === true
+                ">
                   <EditPost />
                   <DeletePost />
+                  <ShowPhoto />
+                </v-list>
+                <v-list v-else>
+                  <ShowPhoto />
                 </v-list>
               </v-menu>
             </v-app-bar>
@@ -189,9 +194,10 @@ import DeletePost from '../components/DeletePost.vue'
 import Comments from '../components/Comments.vue'
 import AddComment from './AddComment.vue'
 import Likes from '../components/Likes.vue'
+import ShowPhoto from '../components/ShowPhoto.vue'
 
 export default {
-components: { EditPost, DeletePost, Comments, AddComment, Likes },
+components: { EditPost, DeletePost, Comments, AddComment, Likes, ShowPhoto },
 data() {
     return {
       tab: null,

@@ -68,14 +68,12 @@ export default {
     }
   },
     methods: {
-    getBackHome() {
-      this.$router.push("/");
-    },
     logOut() {
       this.$store.dispatch("logOut");
-      setTimeout(() => {
-        this.getBackHome();
-      }, 1000);
+      window.location.reload()
+      localStorage.clear();
+      window.location.reload()
+      this.$router.push("/");
     },
   },
   

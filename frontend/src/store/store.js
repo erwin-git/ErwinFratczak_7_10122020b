@@ -14,7 +14,6 @@ export default new Vuex.Store({
     user: {},
     isLoggedIn: false,
     isLoading: false,
-
     posts: [],
     users: [],
     post: {},
@@ -22,7 +21,7 @@ export default new Vuex.Store({
     error: "",
   },
   plugins: [createPersistedState({
-    storage: window.sessionStorage,
+    storage: window.localStorage,
   })],
   getters: {
     posts(state) {
@@ -84,21 +83,19 @@ export default new Vuex.Store({
       state.message = "compte supprimé";
     },
     LOG_OUT(state) {
-      sessionStorage.clear();
+      localStorage.clear();
       state.token = null;
       state.user = null;
       state.isLoggedIn = false;
       state.message = "";
       state.error = "";
+      
     },
     // end users
 
     // posts
 
     GET_POSTS(state, posts) {
-      (state.posts = posts), (state.isLoading = false);
-    },
-    GET_HOT_POSTS(state, posts) {
       (state.posts = posts), (state.isLoading = false);
     },
     GET_POST_BY_ID(state, post) {
@@ -201,12 +198,6 @@ export default new Vuex.Store({
       PostService.getPosts().then((response) => {
         const posts = response.data;
         commit("GET_POSTS", posts);
-      });
-    },
-    getHotPosts({ commit }) {
-      PostService.getHotPosts().then((response) => {
-        const posts = response.data;
-        commit("GET_HOT_POSTS", posts);
       });
     },
 

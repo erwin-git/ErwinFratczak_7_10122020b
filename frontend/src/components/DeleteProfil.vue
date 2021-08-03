@@ -81,9 +81,9 @@ export default {
     deleteAccount(id) {
       this.$store.dispatch("deleteAccount", id);
       this.$store.dispatch("logOut");
-      setTimeout(() => {
-        this.getBackHome();
-      }, 2000);
+      localStorage.clear();
+      window.location.reload()
+      this.$router.push("/");
     },
   },
 };
