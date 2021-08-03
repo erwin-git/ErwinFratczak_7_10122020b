@@ -1,5 +1,5 @@
 <template>
-
+<!-- show comments in time line -->
   <v-timeline 
     align-top
     :dense="$vuetify.breakpoint.smAndDown"
@@ -25,7 +25,7 @@
       >
         <v-card-title class="py-1 text-h6 justify-center" >
           {{ comment.User.firstName }} {{ comment.User.lastName }}
-
+<!-- delete if u r admin or author -->
         <v-spacer></v-spacer>
         <template
           v-if="

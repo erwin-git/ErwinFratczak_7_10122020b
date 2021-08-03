@@ -5,7 +5,7 @@ const fs = require("fs");
 const Sequelize = db.Sequelize
 const { User } = db.sequelize.models
 
-
+//create user
 exports.signup = async (req, res) => {
   try {
     const user = await db.User.findOne({
@@ -38,6 +38,7 @@ exports.signup = async (req, res) => {
   }
 };
 
+//login
 exports.login = async (req, res) => {
   try {
     const user = await db.User.findOne({
@@ -66,7 +67,7 @@ exports.login = async (req, res) => {
   }
 };
 
-
+//get one user
 exports.getOneUser = async (req, res) => {
   
   try {
@@ -79,6 +80,7 @@ exports.getOneUser = async (req, res) => {
   }
 };
 
+//get all users
 exports.getAllUsers = (req, res, next) => {
   User.findAll({
     attributes: ["imageURL", "firstName", "lastName",  "email", "biography", "id"],
@@ -87,6 +89,7 @@ exports.getAllUsers = (req, res, next) => {
       .catch(error => res.status(400).json({ error }));
 };
 
+//edit user account
 exports.editUser = async (req, res) => {
   const id = req.params.id;
   try {
@@ -137,12 +140,14 @@ exports.editUser = async (req, res) => {
   }
 };
 
+//delete user 
 exports.deleteUser = async (req, res) => {
   const id = req.params.id;
   try {
     const userId = token.getUserId(req);
+    const checkAdmin = await db.User.findOne({ where: { id: userId } });
     let user = await db.User.findOne({ where: { id: id } });
-    if (userId === user.id) {
+    if (userId === user.id || checkAdmin.admin === true) {
         const user = await db.User.findOne({ where: { id: id } });
         if (user.imageURL !== null) {
           const filename = user.imageURL.split("/images")[1];

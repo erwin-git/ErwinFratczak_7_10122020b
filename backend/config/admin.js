@@ -1,3 +1,4 @@
+//create admin user when server start
 const db = require("../models");
 const bcrypt = require("bcrypt");
 function setAdmin(req, res) {

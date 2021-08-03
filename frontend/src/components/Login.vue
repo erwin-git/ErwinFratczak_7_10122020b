@@ -1,3 +1,4 @@
+<!-- login popup -->
 <template>
   <div>
     
@@ -14,7 +15,7 @@
           <v-icon>login</v-icon>
         </v-btn>
       </template>
-
+<!-- login button -->
       <v-card >
         <v-app-bar color="primary" flat>
             <v-card-title>
@@ -28,7 +29,7 @@
       class="pa-4 pt-6"
       
     >
-
+<!-- e-mail -->
     <v-card-text class="mt-10">
             <v-text-field
         v-model="email"
@@ -36,6 +37,7 @@
         label="Email address"
         type="email"
       ></v-text-field>
+<!-- password -->
       <v-text-field
         v-model="password"
         :rules="[rules.password, rules.length(6)]"
@@ -49,7 +51,7 @@
   </v-form>
 <v-divider></v-divider>
     <v-card-actions>
-
+<!-- submit or clear -->
       <v-btn
         text
         @click="$refs.form.reset()"

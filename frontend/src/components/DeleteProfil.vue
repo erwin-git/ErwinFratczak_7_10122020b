@@ -1,4 +1,4 @@
-
+<!-- delete user popup -->
 <template>
   <div>
     <v-dialog
@@ -32,7 +32,7 @@
         
         
         <v-divider></v-divider>
-
+<!-- submit or close -->
         <v-card-actions v-if="$store.state.isLoggedIn" class="mt-2">
           <v-btn
             text

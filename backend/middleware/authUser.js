@@ -1,3 +1,5 @@
+//regex verification
+
 const emailValidator = require("email-validator");
 const passwordValidator = require("password-validator");
 

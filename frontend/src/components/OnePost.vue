@@ -1,9 +1,10 @@
+<!-- single post page -->
 <template>
     <v-container >
       <v-row justify="space-around">
         <v-hover v-slot:default="{ hover }">
         <v-card width="800" elevation="24" class="mb-16">
-          
+<!-- post img -->
           <v-img
             height="500px"
             :src="post.fileUrl"
@@ -20,7 +21,7 @@
             </div>
             
           </v-expand-transition>
-
+<!-- menu edit delete or zoom -->
             <v-app-bar
               flat
               color="rgba(0, 0, 0, 0)"
@@ -80,7 +81,7 @@
                 
                 <v-img v-if="post.User.imageURL" :src="post.User.imageURL"></v-img>
                 <v-img v-else src="../assets/icon.png"></v-img>
-
+<!-- author pic -->
               </v-avatar>
               </v-btn>
               </v-fab-transition>
@@ -91,7 +92,7 @@
                 </v-layout>
               
               
-
+<!-- add comment button -->
               <AddComment />
 
               <v-fab-transition>
@@ -116,7 +117,7 @@
           <v-card-title>  
             
           </v-card-title>
-
+<!-- post content text -->
           <v-card-text>
             <div class="font-weight-bold ml-8 mr-8">
               
@@ -128,11 +129,11 @@
               
             </div>
           </v-card-text>
-
+<!-- date of publication -->
           <v-card-text>
             <div class="caption text-right mr-5" ><v-icon class="mr-3 ml-10">mdi-calendar</v-icon>{{ post.createdAt | moment("calendar")}}</div>
           </v-card-text>
-
+<!-- tabs likes or comments -->
           <template>
             <v-card flat>
               <v-tabs
@@ -143,12 +144,12 @@
                 icons-and-text
               >
                 <v-tabs-slider class="primary--text"></v-tabs-slider>
-
+<!-- list of likes -->
                 <v-tab href="#tab-1" class="black--text">
                   Likes
                   <v-icon large color="error">mdi-heart</v-icon>
                 </v-tab>
-
+<!-- time line comments -->
                 <v-tab href="#tab-2" class="black--text">
                   Comments
                   <v-icon large color="success">mdi-message</v-icon>

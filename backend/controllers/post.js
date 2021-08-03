@@ -6,6 +6,7 @@ const { User } = db.sequelize.models
 const { comment } = db.sequelize.models
 const { like } = db.sequelize.models
 
+//create post
 exports.createPost = async (req, res) => {
   const userId = token.getUserId(req);
   let imageUrl;
@@ -45,6 +46,8 @@ exports.createPost = async (req, res) => {
   }
 };
 
+
+//get all posts
 exports.getAllPosts = async (req, res) => {
   try {
     const posts = await db.Post.findAll({
@@ -79,7 +82,7 @@ exports.getAllPosts = async (req, res) => {
     });
   }
 };
-
+// get one post 
 exports.getOnePost = async (req, res) => {
   try {
     const post = await db.Post.findOne({
@@ -118,6 +121,7 @@ exports.getOnePost = async (req, res) => {
   }
 };
 
+//edit post 
 exports.editPost = async (req, res) => {
   try {
     let newImageUrl;
@@ -153,7 +157,7 @@ exports.editPost = async (req, res) => {
     return res.status(500).send({ error: "Erreur serveur" });
   }
 };
-
+//delete post
 exports.deletePost = async (req, res) => {
   try {
     const userId = token.getUserId(req);
@@ -178,6 +182,7 @@ exports.deletePost = async (req, res) => {
   }
 };
 
+//like and dislike post
 exports.likePost = async (req, res, next) => {
   try {
     const userId = token.getUserId(req);
@@ -203,6 +208,7 @@ exports.likePost = async (req, res, next) => {
   }
 };
 
+//add comment to post
 exports.addComment = async (req, res) => {
   try {
     const comment = req.body.content;
@@ -220,6 +226,7 @@ exports.addComment = async (req, res) => {
   }
 };
 
+//delete comment
 exports.deleteComment = async (req, res) => {
   try {
     const userId = token.getUserId(req);

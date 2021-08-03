@@ -1,5 +1,6 @@
 
-<template>
+<!-- profil popup -->
+<template >
   <div>
     <v-dialog 
       v-model="dialog"
@@ -8,6 +9,7 @@
       
 
     >
+<!-- show me my profil - button -->
       <template v-slot:activator="{ on, attrs }">
         <v-list-item v-bind="attrs" v-on="on">
             <v-list-item-action>
@@ -25,6 +27,7 @@
         
 
   >
+<!-- user img -->
     <v-img
     max-height="300px"
     dark 
@@ -42,7 +45,7 @@
             person
           </v-icon>
         </v-list-item-icon>
-
+<!-- user first and last name  -->
         <v-list-item-content>
           <v-list-item-title class="mb-3">Name</v-list-item-title>
           <v-list-item-subtitle>{{profil.firstName}} {{profil.lastName}}</v-list-item-subtitle>
@@ -55,7 +58,7 @@
 
 
       
-
+<!-- user email -->
       <v-list-item>
         <v-list-item-icon>
           <v-icon color="primary">
@@ -79,7 +82,7 @@
             info
           </v-icon>
         </v-list-item-icon>
-
+<!-- user biography -->
         <v-list-item-content>
           <v-list-item-title class="mb-3">Biography</v-list-item-title>
           <p class="text-justify body-2">{{profil.biography}}</p>

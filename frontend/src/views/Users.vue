@@ -1,13 +1,14 @@
+<!-- all users  -->
 <template>
   <v-container>
             <v-row justify="space-around" >
-
+<!-- single user card -->
   <v-card 
     max-width="400"
     class="mx-auto"
     v-for="user of users"
     :key="user.id"
-    :user="user"
+    
   >
       <v-app-bar
       absolute
@@ -16,30 +17,29 @@
       >
 
       <v-spacer></v-spacer>
-
-        <v-menu bottom left>
+<!-- if admin or loged user - delete -->
+        <v-menu bottom left v-if="
+          $store.state.user.id === user.id ||
+          $store.state.user.admin === true
+          ">
           <template 
           
 
 
           v-slot:activator="{ on, attrs }"
           >
-            <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon>mdi-dots-vertical</v-icon>
+            <v-btn icon color="error" v-bind="attrs" v-on="on" @click="deleteAccount(user.id)">
+              <v-icon>delete</v-icon>
             </v-btn>
           </template>
 
-          <v-list v-if="
-          $store.state.user.id === user.id ||
-          $store.state.user.admin === true
-          ">
-            <DeleteUsers />
-          </v-list >
+        
+
 
 
         </v-menu>
     </v-app-bar>
-
+<!-- user profil pic -->
     <v-img
     max-height="300px"
     dark 
@@ -57,7 +57,7 @@
             person
           </v-icon>
         </v-list-item-icon>
-
+<!-- user first and last name -->
         <v-list-item-content>
           <v-list-item-title class="mb-3">Name</v-list-item-title>
           <v-list-item-subtitle>{{user.firstName}} {{user.lastName}}</v-list-item-subtitle>
@@ -70,7 +70,7 @@
 
 
       
-
+<!-- user e-mail -->
       <v-list-item>
         <v-list-item-icon>
           <v-icon color="primary">
@@ -94,7 +94,7 @@
             info
           </v-icon>
         </v-list-item-icon>
-
+<!-- user biography -->
         <v-list-item-content>
           <v-list-item-title class="mb-3">Biography</v-list-item-title>
           <p class="text-justify body-2">{{user.biography}}</p>
@@ -108,12 +108,11 @@
 
 
 <script>
-import DeleteUsers from '../components/DeleteUsers.vue'
-import Auth from "../services/Auth";
-export default {
-components: { DeleteUsers },
-  name: "Users",
 
+
+export default {
+
+  name: "Users",
 
 
   data() {
@@ -127,22 +126,25 @@ components: { DeleteUsers },
   },
   beforeMount() {
     this.$store.dispatch("getUsers");
-    let id = this.$route.params.id;
-    this.$store.dispatch("getUserById", id);
   },
   methods: {
-    async getAll() {
-      try {
-      const response = await Auth.getUsers();
-        this.users = response.data;
-      } catch (error) {
-        this.errorMessage = error.response.data.error;
+    getBackHome() {
+      this.$router.push("/");
+    },
+    deleteAccount(id) {     
+      if(this.$store.state.user.admin === true) {
+        this.$store.dispatch("deleteAccount", id);
+        window.location.reload()
+      }
+      else {
+        this.$store.dispatch("deleteAccount", id);
+        this.$store.dispatch("logOut");
+        localStorage.clear();
+        window.location.reload()
+        this.$router.push("/");
       }
     },
-    getOneUser(id) {
-      this.$router.push(`auth/${id}`);
-    },
-
   },
+  
 };
 </script>

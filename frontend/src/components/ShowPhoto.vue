@@ -1,3 +1,4 @@
+<!-- zoom post img -->
 <template>
   <div>
     <v-dialog
@@ -5,6 +6,7 @@
       transition="dialog-top-transition"
       width="800"
     >
+<!-- button in menu -->
       <template v-slot:activator="{ on, attrs }">
         <v-list-item v-bind="attrs" v-on="on" >
             <v-list-item-action>
@@ -17,7 +19,7 @@
       </template>
 
 
-        
+<!-- img size -->
             <v-img
                 max-height="600"
                 contain

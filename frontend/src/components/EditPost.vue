@@ -1,3 +1,4 @@
+<!-- edit post popup -->
 <template>
   <div>
     <v-dialog
@@ -29,7 +30,7 @@
 
 
     <v-card-text class="mt-10">
-            
+<!-- change post imh -->
       <label for="image" class="body-1 pr-2">Image</label>
         <input
           @change="uploadImage"
@@ -45,7 +46,7 @@
             <v-icon>delete</v-icon>
           </v-btn>
         </div>
-
+<!-- change post text -->
       <v-textarea
       counter="400"
       label="Content"

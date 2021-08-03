@@ -24,6 +24,7 @@
           dark
           icon
         >
+<!-- show me socialmedia icons -->
           <v-icon size="24px">
             {{ icon }}
           </v-icon>

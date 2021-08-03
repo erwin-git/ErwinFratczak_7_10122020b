@@ -1,4 +1,4 @@
-
+<!-- signup popup -->
 <template>
 
   <div>
@@ -10,7 +10,7 @@
       overlay-opacity=".8"
       overlay-color="primary"
     >
-      
+<!-- signup button -->
       <template v-slot:activator="{ on, attrs }">
         <v-btn fab v-bind="attrs" v-on="on" class="mt-10" x-large> 
           <v-icon>mdi-account-plus-outline</v-icon>
@@ -31,14 +31,14 @@
                 <span class="white--text heading">Sign Up</span>
             </v-card-title>
         </v-app-bar>
-        
+<!-- signup form -->
         <v-form
           ref="form"
           v-model="form"
           class="pa-4 pt-6"
           
         >
-
+<!-- first name -->
           <v-text-field
             v-model="firstName"
             label="First Name"
@@ -46,6 +46,7 @@
             :rules="[(v) => !!v || 'First Name is required']"
             required
           ></v-text-field>
+<!-- last name -->
           <v-text-field
             v-model="lastName"
             label="Last Name"
@@ -53,6 +54,7 @@
             :rules="[(v) => !!v || 'Last Name is required']"
             required
           ></v-text-field>
+<!-- email -->
           <v-text-field
             v-model="email"
             :rules="[rules.email]"
@@ -60,6 +62,7 @@
             type="email"
             required
           ></v-text-field>
+<!-- password -->
           <v-text-field
             v-model="password"
             :rules="[rules.password, rules.length(8)]"
@@ -74,7 +77,7 @@
 
         </v-form>
         <v-divider></v-divider>
-
+<!-- submit or clear  -->
         <v-card-actions>
           <v-btn
             text

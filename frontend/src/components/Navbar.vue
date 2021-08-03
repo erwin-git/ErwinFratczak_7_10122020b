@@ -15,7 +15,7 @@
               </v-btn>
             </template>
 
-
+<!-- right menu  -->
             <v-list v-if="$store.state.isLoggedIn">
                 <v-list-item router to="/" >
                     <v-list-item-action>
@@ -64,7 +64,7 @@
 
         </v-app-bar>
 
-
+<!-- left menu - drawer -->
         <v-navigation-drawer v-model="drawer" app class="primary" width="320">
             <v-layout column align-center v-if="$store.state.isLoggedIn">
                                                 <div >
@@ -74,7 +74,7 @@
             />
             </div>
                 <v-flex class="mt-15">
-
+<!-- green if user is login -->
                     <v-badge
                         avatar
                         bordered
@@ -82,14 +82,14 @@
                         :color="isLoggedIn"
                         
                     >
-
+<!-- user photo -->
                     <v-avatar size="200" class=" elevation-10">
                         <v-img v-if="profil.imageURL" :src="profil.imageURL" ></v-img>
                         <v-img v-else src="../assets/icon.png" ></v-img>
                     </v-avatar>
 
                     </v-badge>
-                
+<!-- user info -->
                 </v-flex>
                 <span class="white--text text-h6 mt-5">{{profil.firstName}} {{profil.lastName}}</span>
             </v-layout>
@@ -108,7 +108,7 @@
                     </v-avatar>
 
                     </v-badge>
-                
+<!-- menu-list or login/signup -->
                 </v-flex>
                 <span class="white--text text-h6 mt-5">Log in to Groupomania</span>
             </v-layout>

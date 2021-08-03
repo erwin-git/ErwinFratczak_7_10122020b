@@ -6,6 +6,7 @@
       transition="dialog-top-transition"
       max-width="600"
     >
+<!-- add post button -->
       <template v-slot:activator="{ on, attrs }">
         <v-list-item v-bind="attrs" v-on="on">
             <v-list-item-action>
@@ -32,7 +33,7 @@
 
 
     <v-card-text class="mt-10">
-
+<!-- add img and text -->
       <label for="image" class="body-1 pr-2">Image</label>
         <input
           @change="uploadImage"

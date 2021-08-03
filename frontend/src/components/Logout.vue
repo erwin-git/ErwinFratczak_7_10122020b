@@ -6,6 +6,7 @@
       width="400"
       transition="dialog-top-transition"
     >
+<!-- logout button -->
       <template v-slot:activator="{ on, attrs }">
         <v-list-item v-bind="attrs" v-on="on">
             <v-list-item-action>
@@ -25,7 +26,7 @@
             </v-card-title>
         </v-app-bar>
 
-
+<!-- submit or back to site -->
     <v-card-text class="mt-10">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </v-card-text>
@@ -70,10 +71,11 @@ export default {
     methods: {
     logOut() {
       this.$store.dispatch("logOut");
+      this.$router.push("/");
       window.location.reload()
       localStorage.clear();
       window.location.reload()
-      this.$router.push("/");
+      
     },
   },
   

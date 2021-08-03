@@ -1,4 +1,4 @@
-// alerts
+<!-- edit profil popup -->
 <template>
   <div>
     <v-dialog
@@ -28,6 +28,7 @@
             </v-card-title>
         </v-app-bar>
     <v-card-text class="mt-10">
+<!-- edit first name -->
       <v-text-field
         ref="firstName"
         v-model="firstName"
@@ -39,6 +40,7 @@
         clearable
         hint="Le FirstName doit avoir 3 caractères min et 30 max"
       ></v-text-field>
+<!-- edit last name -->
       <v-text-field
         ref="lastName"
         v-model="lastName"
@@ -52,7 +54,7 @@
 
       
 
-
+<!-- add profi pic -->
 
       <label for="image" class="body-1 pr-2" >Photo: </label>
       <input
@@ -71,7 +73,7 @@
       </div>
       
 
-
+<!-- add biography -->
 
       <v-textarea
         counter="400"
@@ -88,6 +90,7 @@
     <v-alert :value="alert" type="info" text dense v-html="messageRetour || errorMessage"></v-alert>
 </v-form>
 <v-divider></v-divider>
+<!-- submit or clear -->
     <v-card-actions>
       <v-btn
         text

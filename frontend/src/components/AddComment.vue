@@ -5,6 +5,7 @@
       transition="dialog-top-transition"
       max-width="600"
     >
+<!-- add comment button -->
       <template v-slot:activator="{ on, attrs }">
               <v-fab-transition>
                 <v-btn 
@@ -43,7 +44,7 @@
       >
 
 
-
+<!-- add text -->
 
         <v-textarea
         counter=400
@@ -63,7 +64,7 @@
     
 
 
-
+<!-- submit or clear -->
 <v-divider></v-divider>
     <v-card-actions>
       <v-btn

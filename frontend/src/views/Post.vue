@@ -1,3 +1,5 @@
+<!-- all posts -->
+
 <template>
   
           <div class="post">
@@ -6,7 +8,7 @@
 
               <v-layout column >
                 <template>
-                  
+<!-- post img -->          
           <v-container>
             <v-row justify="space-around" >
               <v-card width="800" 
@@ -34,13 +36,13 @@
                 </v-expand-transition>
                 
                   <v-app-bar flat color="rgba(0, 0, 0, 0)" height="940px">
-
+<!-- how many likes and comments -->
                   <v-app-bar-nav-icon color="white">
                     <span class="font-weight-black ml-15">{{ post.likes.length }} <v-icon color="error">mdi-heart</v-icon>    {{ post.comments.length }} <v-icon color="success">mdi-message</v-icon></span>
                   </v-app-bar-nav-icon>
                   
                     <v-spacer></v-spacer>
-
+<!-- go to single post -->
                   <v-menu bottom left>
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn dark icon v-bind="attrs" v-on="on" @click="getOnePost(post.id)">
@@ -64,7 +66,7 @@
                       x-large
                       class="ml-10 mt-5"
                     >
-                    
+<!-- author pic -->
                     <v-avatar size="100" class=" elevation-15">
 
                       <v-img v-if="post.User.imageURL" :src="post.User.imageURL"></v-img>
@@ -75,7 +77,7 @@
                     </v-fab-transition>
                     
                     
-
+<!-- like it -->
 
                     <v-fab-transition>
                       <v-btn class="mr-10"

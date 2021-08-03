@@ -1,3 +1,4 @@
+<!-- likes tab -->
 <template>
 <v-row justify="space-around" >
     <v-card flat width="700" >
@@ -6,7 +7,7 @@
             v-for="like in post.likes"
             :key="like.id"
       >
-        
+<!-- users photos -->
         <v-list-item-avatar>
           
           <v-img v-if="like.User.imageURL" :src="like.User.imageURL"></v-img>
@@ -15,18 +16,18 @@
         </v-list-item-avatar>
 
         
-
+<!-- users info -->
         <v-list-item-content>
             <v-list-item-title>{{ like.User.firstName }} {{ like.User.lastName }}</v-list-item-title>
         </v-list-item-content>
 
         
-
+<!-- when was liked -->
         <v-list-item-content>
             <v-list-item-title class="caption text-right mr-5" ><v-icon color="grey" class="mr-3 ml-10">mdi-clock</v-icon>{{ like.createdAt | moment("calendar")}}</v-list-item-title>
         </v-list-item-content>
 
-
+<!-- dislike if it is your like -->
         <v-list-item-icon>
         <template
           v-if="

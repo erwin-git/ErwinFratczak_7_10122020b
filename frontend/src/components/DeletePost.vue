@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <v-dialog
@@ -6,6 +5,7 @@
       width="400"
       transition="dialog-top-transition"
     >
+<!-- delete post button  -->
       <template v-slot:activator="{ on, attrs }">
         <v-list-item v-bind="attrs" v-on="on">
             <v-list-item-action>
@@ -25,7 +25,7 @@
             </v-card-title>
         </v-app-bar>
 
-
+<!-- submit or back to post -->
     <v-card-text class="mt-10" >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </v-card-text>
